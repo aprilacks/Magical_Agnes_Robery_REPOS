@@ -4,7 +4,7 @@ Se dibujara un circulo con su centro en las coordenadas (X,Y,Z) exactas del obje
 
 "Angle" dictara lo amplia que es la vision del enemigo, mientras que "Radius" dictara lo lejos que puede ver.
 
-![[Pasted image 20260120110604.png]]
+![[Cono_Detección.png]]
 
 El codigo usado para realizar esto es el siguiente: 
 

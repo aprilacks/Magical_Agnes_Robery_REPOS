@@ -11,12 +11,14 @@
             "id": "42ad77d010996eed",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Pasted image 20260120110604.png"
+                "file": "Mecánicas/Camara.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260120110604"
+              "icon": "lucide-file",
+              "title": "Camara"
             }
           }
         ]
@@ -181,14 +183,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "42ad77d010996eed",
+  "active": "b0934ed2a5e411ae",
   "lastOpenFiles": [
-    "Personajes/Prueba5.md",
-    "Pasted image 20260120110604.png",
     "Mecánicas/Detectar Enemigos (Pol_Provisional).md",
-    "Mecánicas/Movimiento Enemigos.md",
-    "Mecánicas/Movimiento Básico.md",
+    "IMAGENES/Celeste_Gameplay_CameraExample.gif",
+    "Mecánicas/Camara.md",
     "Magias/Viento (Pol_Provisional).md",
-    "Mecánicas/Camara.md"
+    "Mecánicas/Movimiento Básico.md",
+    "Mecánicas/Movimiento Enemigos.md",
+    "IMAGENES/Cono_Detección.png",
+    "Historia/Prueba.md",
+    "IMAGENES",
+    "Personajes/Prueba5.md"
   ]
 }

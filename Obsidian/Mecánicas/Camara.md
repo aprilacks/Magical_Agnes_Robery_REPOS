@@ -1,13 +1,32 @@
-Cámara con Scroll enfocada a un Objeto invisible que persigue al personaje.
+Cámara con scroll que se centra en un *objeto invisible*, si colisiona con otro objeto invisible, la cámara transisiona al centro de dicho objeto.
 
-La cámara está enfocada en sala y muestra toda la sala
+La cámara está enfocada en el centro de la pantalla y muestra toda la sala
 
-Cuando el personaje pasa a la siguiente sala, la cámara transiciona hacia la siguiente sala la con un suavizado de movimiento
+Cuando el personaje pasa a la siguiente sala, la cámara transiciona hacia la siguiente sala con un suavizado de movimiento
+
+***Funcionamiento de la Cámara:***
+###### ***--ETAPA 1--*** *20/01/2026*
+La cámara usa el sitema de colosiones de Unity con etiquetas. 
+El Objeto de la Cámara es hijo de un objeto "Controlador de Cámara" quien realiza el movimiento, el Controlador de Cámara Depende del Movimiento del Jugador(Hay que adaptar Estructura del Script de la Cámara al Script de Movimiento Final)
+
+La cámara se centra en una pantalla colisionando con un Objeto Trasnparente del mismo tamaño. Si el Controlador de Cámara Colisiona con un objeto asociado a una pantalla, la cámara se fija en el centro del objeto, mostrando toda la Pantalla. Solo cuando el controlador de cámara colisiona con el objetode de la siguiente habitación con etiqueta de cambio de pantalla, la cámara se fija en el centro del siguiente objeto, y por ende, de la siguiente habitación.
+
+![[Celeste_Gameplay_CameraExample.gif]]
+[^1] ***Objetivo Final***
+La Cámara Actual no mantiene seguimiento del jugador si es que la sala es más grande que la cámara. Corrección de este problema en siguiente etapa de progreso de Movimiento de Cámara
+
+###### ***--ETAPA 2--***######
+
+EN PROGRESO
 
 
-La Cámara usa sistemas de colosiones de Unity con etiquetas, El Objeto de la Cámara es hijo de un objeto "Controlador de Cámara". Controlador de Cámara Depende del Movimiento del Jugador, Adaptar Estructura del Script al Script de Movimiento Final ( Por ahora)
 
-La cámara se centra en una Pantalla colisionando con su Background. Si el Controlador de Cámara Colisiona con una Pantalla, la Cámara se fija en el Centro de la Pantalla, solo cuando el Controlador de Cámara Colisiona con el background de la Siguiente habitación con etiqueta de Cambio de Pantalla, la Cámara se fija en el Centro de la siguiente habitación, colisionando con el siguiente Background
 
---- A Futuro:: Que el Trigger de la Transición de cámara no dependa de la colisión de un Bakcgroumd
 
+
+
+
+
+
+###### **Bibliografía**
+[^1]: Giff De Ejemplo | Gameplay de: ***Celeste***	
