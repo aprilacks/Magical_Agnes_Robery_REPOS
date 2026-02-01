@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class MC_movement : MonoBehaviour, IPlayerController
@@ -11,6 +12,12 @@ public class MC_movement : MonoBehaviour, IPlayerController
     private Vector2 _frameVelocity;
     private bool _cachedQueryStartInColliders;
 
+    private bool markerPlaced = false;
+    private Vector3 markerPosition;
+
+
+    private float orFallAceleration;
+
     #region Interface
 
     public Vector2 FrameInput => _frameInput.Move;
@@ -21,20 +28,27 @@ public class MC_movement : MonoBehaviour, IPlayerController
 
     private float _time;
 
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
 
         _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+        orFallAceleration = _stats.FallAcceleration;
     }
 
     private void Update()
     {
         _time += Time.deltaTime;
         GatherInput();
-       
+        HandleMarkerInput();
+       if (_grounded)
+            _stats.FallAcceleration = 110;
+
     }
+
+    private bool windUsed;
 
     private void GatherInput()
     {
@@ -42,7 +56,8 @@ public class MC_movement : MonoBehaviour, IPlayerController
         {
             JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
             JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
-            Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
+            Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")),
+            Wind = Input.GetKey(KeyCode.X)
         };
         if (_stats.SnapInput)
         {
@@ -55,6 +70,10 @@ public class MC_movement : MonoBehaviour, IPlayerController
             _jumpToConsume = true;
             _timeJumpWasPressed = _time;
         }
+        if (_frameInput.Wind)
+        {
+           windUsed = true;
+        }
     }
 
     private void FixedUpdate()
@@ -64,6 +83,7 @@ public class MC_movement : MonoBehaviour, IPlayerController
         HandleJump();
         HandleDirection();
         HandleGravity();
+        WindMagic();
 
         ApplyMovement();
     }
@@ -184,6 +204,52 @@ public class MC_movement : MonoBehaviour, IPlayerController
         if (_stats == null) Debug.LogWarning("Please assign a ScriptableStats asset to the Player Controller's Stats slot", this);
     }
 #endif
+    void WindMagic()
+    {
+        if (windUsed)
+        {
+            if (_grounded)
+            {
+                _frameVelocity.y = Mathf.Max(_frameVelocity.y, 0f);
+                _frameVelocity.y += 60;
+            }
+            else
+            {
+                _rb.linearVelocityY = 0;
+
+                _stats.FallAcceleration = 0.2f;
+            }
+            windUsed = false;
+        }
+    }
+
+    private void HandleMarkerInput()
+    {
+        if (Input.GetKeyDown(KeyCode.K) && !markerPlaced)
+        {
+            markerPosition = transform.position;
+            markerPlaced = true;
+
+            Debug.Log("Marcador colocado en: " + markerPosition);
+        }
+
+        else if (Input.GetKeyDown(KeyCode.K) && markerPlaced)
+        {
+            TeleportToMarker();
+        }
+    }
+
+    private void TeleportToMarker()
+    {
+        transform.position = markerPosition;
+
+        _frameVelocity = Vector2.zero;
+        _rb.linearVelocity = Vector2.zero;
+
+        markerPlaced = false;
+        Debug.Log("Teletransportado al marcador");
+    }
+
 }
 
 public struct FrameInput
@@ -191,6 +257,7 @@ public struct FrameInput
     public bool JumpDown;
     public bool JumpHeld;
     public Vector2 Move;
+    public bool Wind;
 }
 
 public interface IPlayerController
