@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95cefab315f835245beab94100d14bea, type: 3}
-  m_Name: PlayerStats
+  m_Script: {fileID: 11500000, guid: 93f5d8066711fe1409226871e2fe96e6, type: 3}
+  m_Name: ScriptableStats
   m_EditorClassIdentifier: 
   PlayerLayer:
     serializedVersion: 2
@@ -22,11 +22,11 @@ MonoBehaviour:
   Acceleration: 120
   GroundDeceleration: 60
   AirDeceleration: 30
-  GroundingForce: -1.2
-  GrounderDistance: 0.052
-  JumpPower: 36
+  GroundingForce: -1.5
+  GrounderDistance: 0.05
+  JumpPower: 30
   MaxFallSpeed: 40
-  FallAcceleration: 110
+  FallAcceleration: 80
   JumpEndEarlyGravityModifier: 3
   CoyoteTime: 0.15
   JumpBuffer: 0.2
