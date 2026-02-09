@@ -16,6 +16,8 @@ public class Movement : MonoBehaviour, IPlayerController
     private Vector2 _frameVelocity;
     private bool _cachedQueryStartInColliders;
 
+    private Quaternion noRotate = new Quaternion(0, 0, 0, 0);
+
     //state check
     public bool usingFireMagic = false;
     public bool usingWindMagic = false;
@@ -46,6 +48,7 @@ public class Movement : MonoBehaviour, IPlayerController
         _time += Time.deltaTime;
         //Gets the player input
         GatherInput();
+        transform.rotation = noRotate;
     }
 
     private void GatherInput()

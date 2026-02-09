@@ -16,7 +16,7 @@ public class WindMagic : MonoBehaviour
     void Update()
     {
         if (plymov == null) return;
-        if (Input.GetKey(KeyCode.X))
+        if (Input.GetKey(KeyCode.U))
         {
              _stats.MaxFallSpeed = fallspeed;
               plymov.usingWindMagic = true;

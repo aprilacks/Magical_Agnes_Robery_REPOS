@@ -23,14 +23,14 @@ public class FireMagic : MonoBehaviour
 
     void CannonBall()
     {
-        if (Input.GetKey(KeyCode.V))
+        if (Input.GetKey(KeyCode.I))
         {
             _stats.MaxFallSpeed = CannonSpeed;
             _stats.FallAcceleration = CannonAcceleration;
             plymov.usingFireMagic = true;
             plymov.usingWindMagic = false;
         }
-        else if (!Input.GetKey(KeyCode.V) && plymov.usingWindMagic == false)
+        else if (!Input.GetKey(KeyCode.I) && plymov.usingWindMagic == false)
         {
             _stats.MaxFallSpeed = 40;
             _stats.FallAcceleration = 80;
