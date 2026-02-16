@@ -29078,6 +29078,22 @@ PrefabInstance:
       propertyPath: m_BodyType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3037350953399282659, guid: f656765af4a24e343b1b09a4e5c009b2, type: 3}
+      propertyPath: water
+      value: 
+      objectReference: {fileID: -8026485813082200791, guid: 08cbb467af5854545baa8d5f60086c3f, type: 3}
+    - target: {fileID: 3037350953399282659, guid: f656765af4a24e343b1b09a4e5c009b2, type: 3}
+      propertyPath: notWater
+      value: 
+      objectReference: {fileID: -4221084466737817670, guid: 08cbb467af5854545baa8d5f60086c3f, type: 3}
+    - target: {fileID: 3302217656374945806, guid: f656765af4a24e343b1b09a4e5c009b2, type: 3}
+      propertyPath: wind
+      value: 
+      objectReference: {fileID: 3437584192582716486, guid: 08cbb467af5854545baa8d5f60086c3f, type: 3}
+    - target: {fileID: 3302217656374945806, guid: f656765af4a24e343b1b09a4e5c009b2, type: 3}
+      propertyPath: notWind
+      value: 
+      objectReference: {fileID: -4221084466737817670, guid: 08cbb467af5854545baa8d5f60086c3f, type: 3}
     - target: {fileID: 3500031027268129656, guid: f656765af4a24e343b1b09a4e5c009b2, type: 3}
       propertyPath: usingWindMagic
       value: 1
