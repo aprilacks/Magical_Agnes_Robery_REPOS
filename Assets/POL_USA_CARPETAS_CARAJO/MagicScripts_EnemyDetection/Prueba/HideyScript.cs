@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class HideyScript : MonoBehaviour
     [SerializeField] private Movement _move;
     public Rigidbody2D agnes;
     private bool playerInRange = false;
+    public Rigidbody2D hidespot;
 
     private void Update()
     {
@@ -20,9 +22,9 @@ public class HideyScript : MonoBehaviour
                 Unhide();
             }
         }
-        if (_move.isHiding == true)
+        if (_move.isHiding == true && playerInRange)
         {
-            agnes.transform.position = transform.position;
+            agnes.transform.position = hidespot.transform.position;
             agnes.constraints = RigidbodyConstraints2D.FreezePosition;
         }
     }
