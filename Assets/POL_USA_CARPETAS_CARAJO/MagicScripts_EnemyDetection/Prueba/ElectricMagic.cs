@@ -33,7 +33,7 @@ public class ElectricMagic : MonoBehaviour
             Debug.Log("Marcador colocado en: " + markerPosition);
             
         }
-        else if (Input.GetKeyDown(KeyCode.P) && markerPlaced)
+        else if (Input.GetKeyDown(KeyCode.C) && markerPlaced)
         {
             TeleportToMarker();
             Destroy(clone);
