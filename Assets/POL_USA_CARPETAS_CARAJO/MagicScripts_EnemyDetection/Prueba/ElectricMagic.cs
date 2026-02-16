@@ -21,7 +21,7 @@ public class ElectricMagic : MonoBehaviour
 
     private void HandleMarkerInput()
     {
-        if (Input.GetKeyDown(KeyCode.P) && !markerPlaced)
+        if (Input.GetKeyDown(KeyCode.C) && !markerPlaced)
         {
             markerPosition = agnes.transform.position;
             markerPlaced = true;
@@ -29,7 +29,7 @@ public class ElectricMagic : MonoBehaviour
             Debug.Log("Marcador colocado en: " + markerPosition);
         }
 
-        else if (Input.GetKeyDown(KeyCode.P) && markerPlaced)
+        else if (Input.GetKeyDown(KeyCode.C) && markerPlaced)
         {
             TeleportToMarker();
         }
