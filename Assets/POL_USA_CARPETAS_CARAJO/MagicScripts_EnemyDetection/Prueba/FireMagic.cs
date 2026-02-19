@@ -42,7 +42,7 @@ public class FireMagic : MonoBehaviour
                 clone2.transform.position = agnes.transform.position;
             }
         }
-        else if (!Input.GetKey(KeyCode.I) || plymov.isGrounded())
+        else if (!Input.GetKey(KeyCode.X) || plymov.isGrounded())
         {
             _stats.MaxFallSpeed = 40;
             _stats.FallAcceleration = 80;
