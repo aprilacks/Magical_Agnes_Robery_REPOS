@@ -20983,7 +20983,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -21342,6 +21342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColliderTarget: {fileID: 0}
   Player: {fileID: 2083742842}
+  CAMERA: {fileID: 519623890}
   speed: 5
   offset: {x: 0, y: 2, z: -10}
   baseCamPosition: {x: 0, y: 0, z: 0}
@@ -21534,6 +21535,10 @@ PrefabInstance:
       propertyPath: MotherAgnes
       value: 
       objectReference: {fileID: 2083742872}
+    - target: {fileID: 5752182407110258822, guid: f656765af4a24e343b1b09a4e5c009b2, type: 3}
+      propertyPath: CAMERA
+      value: 
+      objectReference: {fileID: 519623890}
     - target: {fileID: 5752182407110258822, guid: f656765af4a24e343b1b09a4e5c009b2, type: 3}
       propertyPath: cameraRef
       value: 
