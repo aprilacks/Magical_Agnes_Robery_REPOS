@@ -20983,7 +20983,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 14
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -21345,8 +21345,15 @@ MonoBehaviour:
   CAMERA: {fileID: 519623890}
   speed: 5
   offset: {x: 0, y: 2, z: -10}
+  scaleOffset: 0
+  scaleOffsetVector: {x: 0, y: 0, z: 0}
   baseCamPosition: {x: 0, y: 0, z: 0}
   _movement: {fileID: 2083742881}
+  minX: -1
+  minY: -1
+  maxX: -1
+  maxY: -1
+  prueba: 0
 --- !u!4 &1619464310
 Transform:
   m_ObjectHideFlags: 0

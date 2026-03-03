@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 public class Camera_Controller_Structure : MonoBehaviour
 {
@@ -29,6 +30,12 @@ public class Camera_Controller_Structure : MonoBehaviour
     [Header("Movemente Script for _grounded")]
     public Movement _movement;
 
+    [Header("Camera Boundaries")]
+    public float minX = -1;
+    public float minY = -1;
+    public float maxX = -1;
+    public float maxY = -1;
+
     public bool prueba;
 
     void Start()
@@ -51,35 +58,40 @@ public class Camera_Controller_Structure : MonoBehaviour
         if (ColliderTarget != null || Player != null)
         {
             if (ColliderTarget.gameObject == null) return; 
-
+            
+            // STATIC CAMERA
             if (ColliderTarget.gameObject.tag == "ChangeCamera")
             {
-                offset.x = 0;
-                offset.y = 0;
+               // offset.x = 0;
+               // offset.y = 0;
                 FinalTarget = ColliderTarget.transform.position;
                 // CAMERA MOVES TOWARDS OBJECTIVE
                
                 baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget + offset, speed * Time.deltaTime);
                
             }
+
+            // VERTICAL SCROLL
             else if(ColliderTarget.gameObject.tag == "VerticalScroll")
             {
-                offset.x = 0;
-                offset.y = 5;
+               // offset.x = 0;
+               // offset.y = 5;
 
                 FinalTarget = new Vector3 (ColliderTarget.transform.position.x, Player.transform.position.y);
 
                 if(!_movement.isGrounded() || _movement.isFalling())
                 {
-                    offset.y = -2;
+                    //offset.y = -2;
                     // CAMERA MOVES TOWARDS OBJECTIVE
                     baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget + offset, speed * Time.deltaTime);
                 }
             }
+
+            // HORIZONTAL SCROLL
             else if (ColliderTarget.gameObject.tag == "HorizontalScroll")
             {
-                offset.y = 0;
-                offset.x = 5 * _movement.ReturnDirection();
+                //offset.y = 0;
+                //offset.x = 5 * _movement.ReturnDirection();
 
                 if (ColliderTarget.transform.localScale.x + ColliderTarget.transform.localScale.x / 2 - CAMERA.orthographicSize >= CAMERA.orthographicSize)
                 {
@@ -87,17 +99,26 @@ public class Camera_Controller_Structure : MonoBehaviour
                 }
 
                 scaleOffset = ColliderTarget.transform.localScale.x + ColliderTarget.transform.localScale.x / 2 - CAMERA.orthographicSize;
+
                 scaleOffsetVector = ColliderTarget.transform.localScale /2;  //.x + ColliderTarget.transform.localScale.x/2 - CAMERA.orthographicSize;
 
                 FinalTarget = new Vector3(Player.transform.position.x, ColliderTarget.transform.position.y);
                 // CAMERA MOVES TOWARDS OBJECTIVE
-                baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget + offset, speed * Time.deltaTime);
+                baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget +offset, speed * Time.deltaTime);
 
 
             }
 
             /// transform.scale.x + transform.scale.x/2 - Tamaño de la Cámara en x (HACERLO EN TODOS LOS LADOS)
 
+            if (maxX != -1 && maxY != -1 && minX != -1 && minY != -1)
+            {
+                float aspectRatio = 1.78f; //
+                float sizeY = CAMERA.orthographicSize;
+                float sizeX = sizeY * aspectRatio;
+
+                baseCamPosition.x = Mathf.Clamp(baseCamPosition.x, minX + sizeX, maxX - sizeX);
+            }
 
             // CAMERA LOCKS INTO THE OBJECTIVE
             // Makes a transition to the next Collided Object tagged by ChangeCamera [[ See CameraReference ]]
