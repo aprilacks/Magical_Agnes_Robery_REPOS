@@ -244,13 +244,13 @@ public class Movement : MonoBehaviour, IPlayerController
     //Turns the framevelocity (which we used to calculate the speed the player will have) as the linearVelocity (the speed the player will ACTUALLY have)
     private void ApplyMovement() => _rb.linearVelocity = _frameVelocity;
 
-#if UNITY_EDITOR
-    //error message
-    private void OnValidate()
-    {
-        if (_stats == null) Debug.LogWarning("Please assign a ScriptableStats asset to the Player Controller's Stats slot", this);
-    }
-#endif
+//#if UNITY_EDITOR
+//    //error message
+//    private void OnValidate()
+//    {
+//        if (_stats == null) Debug.LogWarning("Please assign a ScriptableStats asset to the Player Controller's Stats slot", this);
+//    }
+//#endif
 }
 
 public struct FrameInput

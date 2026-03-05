@@ -16,6 +16,7 @@ public class CameraReference : MonoBehaviour
         cam = collided.gameObject;
         /// transform.scale.x + transform.scale.x/2 - Tamaño de la Cámara en x (HACERLO EN TODOS LOS LADOS)
 
+
         // If collition is detected and This object has a Camera Reference Game Object
         if (collided != null && cameraRef != null)
         {
@@ -23,7 +24,16 @@ public class CameraReference : MonoBehaviour
             if (collided.gameObject.tag == "ChangeCamera" || collided.gameObject.tag == "VerticalScroll" || collided.gameObject.tag == "HorizontalScroll")
             {
                 cameraRef.ColliderTarget = collided.gameObject;
-
+                Vector3 pos = collided.transform.position;
+                Vector3 scale = collided.transform.localScale;
+                float minX = pos.x - scale.x/2;
+                float maxX = pos.x + scale.x/2;
+                float minY = pos.y - scale.y/2;
+                float maxY = pos.y + scale.y/2;
+                cameraRef.minX = minX;
+                cameraRef.maxX = maxX;
+                cameraRef.minY = minY;
+                cameraRef.maxY = maxY;
                 enemy_move.RESET_ENEMIES();
 
             }
