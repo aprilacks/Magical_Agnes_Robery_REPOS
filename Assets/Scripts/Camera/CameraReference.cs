@@ -34,8 +34,10 @@ public class CameraReference : MonoBehaviour
                 cameraRef.maxX = maxX;
                 cameraRef.minY = minY;
                 cameraRef.maxY = maxY;
-                enemy_move.RESET_ENEMIES();
-
+                if (enemy_move != null)
+                {
+                    enemy_move.RESET_ENEMIES();
+                }
             }
 
         }
