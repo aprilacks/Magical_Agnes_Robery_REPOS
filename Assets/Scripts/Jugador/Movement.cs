@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour, IPlayerController
     //Refers to another script that manages the different variables used for the movement (gravity, jump height etc...)
     [SerializeField] private ScriptableStats _stats;
     //Declaration of the player rigidbody and collider
-    private Rigidbody2D _rb;
+    [HideInInspector] public Rigidbody2D _rb;
     private CapsuleCollider2D _col;
     //Variables used to check for the input
     private FrameInput _frameInput;
@@ -34,7 +34,6 @@ public class Movement : MonoBehaviour, IPlayerController
     #endregion
     //Variable used to check how much time has passed.
     private float _time;
-
 
 
 
@@ -99,18 +98,19 @@ public class Movement : MonoBehaviour, IPlayerController
     #region Collisions
     //Variables for checking WHEN the player left the ground and IF they are on the ground
     private float _frameLeftGrounded = float.MinValue;
-    private bool _grounded;
+    public bool _grounded;
     public bool isGrounded()
     {
+   
         return _grounded;
+
     }
 
 
     public bool _falling = false;
     public bool isFalling()
     {
-        _falling = !isGrounded() && _rb.linearVelocity.y < 0f;  
-
+        _falling = !isGrounded() && _rb.linearVelocity.y < 0f;
         return _falling;
     }
 

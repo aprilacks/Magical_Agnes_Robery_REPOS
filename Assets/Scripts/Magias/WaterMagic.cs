@@ -36,6 +36,7 @@ public class WaterMagic : MonoBehaviour
             agnes.constraints = RigidbodyConstraints2D.FreezePositionY;
             plymov.SetFrameVelocity(WaterDashForce);
             DashUsed = true;
+            plymov.usingWaterMagic = true;
             StartCoroutine(WaitForSeconds());
         }
         else if(!Input.GetKeyDown(KeyCode.V) && plymov.usingWindMagic == false)

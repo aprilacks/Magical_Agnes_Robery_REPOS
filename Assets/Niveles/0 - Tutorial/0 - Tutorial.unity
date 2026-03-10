@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 9131294}
   - component: {fileID: 9131293}
   - component: {fileID: 9131295}
-  - component: {fileID: 9131296}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -6556,33 +6555,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!50 &9131296
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9131291}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &409792634
 GameObject:
   m_ObjectHideFlags: 0
@@ -6816,7 +6788,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8237930434047882456, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
   m_PrefabInstance: {fileID: 8470868675386317368}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1338393808}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70214b777113cfc40af116d9aebe19e4, type: 3}
@@ -6914,6 +6886,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1338393808 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5015450390162125190, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
+  m_PrefabInstance: {fileID: 8470868675386317368}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1338393812 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1093184588583484688, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
+  m_PrefabInstance: {fileID: 8470868675386317368}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1338393813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338393808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce338e73365c3aa419e7af67d55040e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stats: {fileID: 11400000, guid: 94db11c9bf88a66478a24044ea3ab134, type: 2}
+  agnes: {fileID: 591749487}
+  water: {fileID: 0}
+  notWater: {fileID: 0}
+  WaterDashForce: {x: 0, y: 0}
+--- !u!114 &1338393814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338393808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e0267c4fbcb3894e9cb255b9bab2c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stats: {fileID: 11400000, guid: 94db11c9bf88a66478a24044ea3ab134, type: 2}
+  agnes: {fileID: 591749487}
+  MotherAgnes: {fileID: 1338393812}
+  CannonSpeed: 30
+  CannonAcceleration: 2
+  hitBox: {fileID: 0}
 --- !u!1001 &8470868675386317368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6924,11 +6941,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1093184588583484688, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.369043
+      value: -2.9
       objectReference: {fileID: 0}
     - target: {fileID: 1093184588583484688, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.75099134
+      value: -7.9
       objectReference: {fileID: 0}
     - target: {fileID: 1093184588583484688, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6969,7 +6986,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5015450390162125190, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1338393814}
+    - targetCorrespondingSourceObject: {fileID: 5015450390162125190, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 1338393813}
   m_SourcePrefab: {fileID: 100100000, guid: 092bddb260096b54384df3a7a32a9bb3, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

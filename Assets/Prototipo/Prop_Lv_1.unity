@@ -29079,10 +29079,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColliderTarget: {fileID: 0}
   Player: {fileID: 2083742842}
+  CAMERA: {fileID: 519623890}
   speed: 5
   offset: {x: 0, y: 0, z: -10}
+  scaleOffset: 0
+  scaleOffsetVector: {x: 0, y: 0, z: 0}
   baseCamPosition: {x: 0, y: 0, z: 0}
-  _movement: {fileID: 0}
+  _movement: {fileID: 2083742864}
+  minX: -1
+  minY: -1
+  maxX: -1
+  maxY: -1
+  prueba: 0
 --- !u!4 &1619464310
 Transform:
   m_ObjectHideFlags: 0
