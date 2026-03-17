@@ -63,7 +63,7 @@ public class Camera_Controller_Structure : MonoBehaviour
                 FinalTarget = ColliderTarget.transform.position;
                 // CAMERA MOVES TOWARDS OBJECTIVE
 
-                baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget + offset, speed * Time.deltaTime);
+                baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget, speed * Time.deltaTime);
 
             }
 
@@ -76,6 +76,8 @@ public class Camera_Controller_Structure : MonoBehaviour
                 // LIMITS
                 if (maxX != -1 && maxY != -1 && minX != -1 && minY != -1)
                 {
+
+                    // CALCULATION SETTING
                     aspectRatio = 1.78f;
                     sizeX = CAMERA.orthographicSize / 2;
                     sizeY = sizeX * aspectRatio;
@@ -93,7 +95,22 @@ public class Camera_Controller_Structure : MonoBehaviour
 
                     }
                 }
-                baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget + offset, speed * Time.deltaTime);
+                
+                if(_movement.isGrounded())
+                {
+                    offset.y = 0;
+                    baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget + offset, speed * Time.deltaTime);
+                }
+                else if(!_movement.isGrounded() && _movement._rb.linearVelocity.y < 0)
+                {
+                    offset.y = -2;
+                    baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget + offset, speed * Time.deltaTime);
+
+                }
+
+
+
+
 
             }
 
@@ -103,30 +120,43 @@ public class Camera_Controller_Structure : MonoBehaviour
                 // CAMERA COLLIDER FINAL TARGERT
                 FinalTarget = new Vector3(Player.transform.position.x, ColliderTarget.transform.position.y);
 
-
                 // LIMITS
                 if (maxX != -1 && maxY != -1 && minX != -1 && minY != -1)
                 {
+                    // CALCULATION SETTING
                     aspectRatio = 1.78f;
                     sizeY = CAMERA.orthographicSize;
                     sizeX = sizeY * aspectRatio;
 
-                    if (FinalTarget.x < minX + sizeX)
+                    if(_movement._rb.linearVelocity.x <0)
                     {
-                        FinalTarget.x = minX + sizeX;
-                        //baseCamPosition.x = minX + sizeX;
-
+                        offset.x = -2;
                     }
-                    else if (FinalTarget.x > maxX - sizeX)
+                    else if(_movement._rb.linearVelocity.x >0)
                     {
-                        FinalTarget.x = maxX - sizeX;
+                        offset.x = 2;
+                    }
+                    else if(_movement._rb.linearVelocity.x == 0)
+                    {
+                        offset.x = 0;
+                    }
+                    if (FinalTarget.x < minX + sizeX+offset.x - offset.x*3)
+                    {
+                        offset.x = 0;
+                        FinalTarget.x = minX + sizeX - offset.x;
+                        //baseCamPosition.x = minX + sizeX;
+                    }
+                    else if (FinalTarget.x > maxX - sizeX - offset.x*3)
+                    {   
+                        offset.x = 0;
+                        FinalTarget.x = maxX - sizeX - offset.x;
                         //baseCamPosition.x = maxX - sizeX;
 
                     }
                 }
                 // CAMERA MOVES TOWARDS OBJECTIVE
                 baseCamPosition = Vector3.Lerp(baseCamPosition, FinalTarget + offset, speed * Time.deltaTime);
-                
+
             }
 
             // CAMERA LOCKS INTO THE OBJECTIVE
