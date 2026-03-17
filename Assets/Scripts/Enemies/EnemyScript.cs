@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
+    //variables that determine how big the view cone is. NEVER MAKE THE ANGLE OR RADIUS 0.
     public float viewRadius;
     [Range(0, 360)]
     public float viewAngle;
@@ -13,12 +14,15 @@ public class EnemyScript : MonoBehaviour
     [Range(0, 360)]
     public float fovRotation;
 
+    //the layers that determine where the player is, and where obstacles are (obstacles impede vision, put ALL TERRAIN here)
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-    ///[HideInInspector]
+    //list of found players, probably will always be 1 lul
+    [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
 
+    //pretty unimportant stuff, keep meshRes above 20 at all times
     public float meshResolution;
     public int edgeResolveIterations;
     public float edgeDstThreshold;
@@ -34,6 +38,7 @@ public class EnemyScript : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
+        //gives a bit of leeway on when you can be found so you dont stub your toe with the cone and die
         StartCoroutine("FindTargetsWithDelay", 0.05f);
     }
 
@@ -54,14 +59,17 @@ public class EnemyScript : MonoBehaviour
 
     void FindVisibleTargets()
     {
+        //clears all data on previous targets
         visibleTargets.Clear();
         targetAquired = false;
         Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), viewRadius, targetMask);
+        //for loop to check if the found objects are the player
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
             GameObject targetObject = target.gameObject;
             if (targetObject == null) { continue; }
+            //if the player is within the distance of the cone
             Vector2 dirToTarget = (target.position - transform.position).normalized;
             if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle / 2)
             {
@@ -69,11 +77,14 @@ public class EnemyScript : MonoBehaviour
 
                 if (!Physics2D.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
+                    //checks if the player is hidden
                     Movement charMovement = targetObject.GetComponent<Movement>();
                     bool visible = true;
+                    //if they're hidden, they're fine
                     if (charMovement != null){
                         visible = !charMovement.isHiding;
                     }
+                    //murder (reset the scene)
                     if (visible)
                     {
                         Scene currentScene = SceneManager.GetActiveScene();
@@ -84,7 +95,8 @@ public class EnemyScript : MonoBehaviour
             }
         }
     }
-
+    //pretty unimportant (again) just draws the cone of view. Most of it is just mathematics that im too scared to try and explain
+    //because i'll probably fuck it up along the road so i wont bother, just trust me bro dont touch it
     void DrawFieldOfView()
     {
         int rayCount = Mathf.RoundToInt(viewAngle * meshResolution);
