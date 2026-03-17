@@ -40,7 +40,7 @@ public class DialogueTrigger : MonoBehaviour
         }
         else
         {
-            dialoguePanel.SetActive(false); // Cierra el diálogo
+            dialoguePanel.SetActive(false);
         }
     }
 
@@ -49,7 +49,6 @@ public class DialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            // Opcional: Mostrar UI "Presiona E"
         }
     }
 
@@ -58,7 +57,7 @@ public class DialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            dialoguePanel.SetActive(false); // Cierra si el jugador se va
+            dialoguePanel.SetActive(false); 
         }
     }
 }
