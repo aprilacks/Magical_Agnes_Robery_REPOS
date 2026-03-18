@@ -73088,17 +73088,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvaPanelDialogos (Guardia Descubierto)
       objectReference: {fileID: 0}
+    - target: {fileID: 4474998464917893782, guid: ea54d5e3db64b3442917597a027ae209, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5225906910970980310, guid: ea54d5e3db64b3442917597a027ae209, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 8333268047518143823, guid: 691bd348697f09c4fad5134c599aa700, type: 3}
-    - target: {fileID: 6845522039156606941, guid: ea54d5e3db64b3442917597a027ae209, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5770761611619216089, guid: ea54d5e3db64b3442917597a027ae209, type: 3}
       propertyPath: m_UiScaleMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6845522039156606941, guid: ea54d5e3db64b3442917597a027ae209, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7636628531184619137, guid: ea54d5e3db64b3442917597a027ae209, type: 3}
       propertyPath: m_Pivot.x
@@ -73956,7 +73960,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Agnes
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7692799575789786184, guid: 5ecf988ada556364594d39a3b43bdeeb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
