@@ -12,7 +12,7 @@ public class MovimientoEnemigo : MonoBehaviour
     #endregion
 
     #region Private Variables
-    private Animator anim;
+    //private Animator anim;
     private float viewAngle;
     private int direction = 1;
     private SpriteRenderer spriteRenderer;
@@ -23,7 +23,7 @@ public class MovimientoEnemigo : MonoBehaviour
         //anim = GetComponent<Animator>();
     }
 
-    private void Start()
+    public void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         viewAngle = GetComponent<EnemyScript>().viewAngle;
@@ -54,7 +54,7 @@ public class MovimientoEnemigo : MonoBehaviour
         }
     }
 
-    void Flip()
+    public void Flip()
     {
         spriteRenderer.flipX = !spriteRenderer.flipX;
         if (spriteRenderer.flipX)

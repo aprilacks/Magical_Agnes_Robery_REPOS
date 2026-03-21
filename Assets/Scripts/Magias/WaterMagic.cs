@@ -6,7 +6,7 @@ public class WaterMagic : MonoBehaviour
     [SerializeField] private ScriptableStats _stats;
     private Movement plymov = null;
     public Rigidbody2D agnes;
-    private bool DashUsed = false;
+    public bool DashUsed = false;
 
     public Vector2 WaterDashForce;
 

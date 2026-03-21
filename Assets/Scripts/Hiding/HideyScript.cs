@@ -7,6 +7,12 @@ public class HideyScript : MonoBehaviour
     public Rigidbody2D agnes;
     private bool playerInRange = false;
     public Rigidbody2D hidespot;
+    private CapsuleCollider2D disableCollision;
+
+    private void Start()
+    {
+        disableCollision = agnes.GetComponent<CapsuleCollider2D>();
+    }
 
     private void Update()
     {
@@ -31,12 +37,14 @@ public class HideyScript : MonoBehaviour
     private void Hide()
     {
         _move.isHiding = true;
+        disableCollision.isTrigger = true;
 
     }
 
     private void Unhide()
     {
         _move.isHiding = false;
+        disableCollision.isTrigger = false;
         agnes.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 

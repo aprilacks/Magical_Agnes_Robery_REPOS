@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7626521779870327966}
   - component: {fileID: 1486832051662853831}
   - component: {fileID: 7068820251705503812}
-  - component: {fileID: 5136200380464703722}
   - component: {fileID: 160270441912232496}
   - component: {fileID: 6489549412686525725}
   - component: {fileID: 1071550389077569383}
@@ -107,6 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 94db11c9bf88a66478a24044ea3ab134, type: 2}
   agnes: {fileID: 6489549412686525725}
+  DashUsed: 0
   WaterDashForce: {x: 0, y: 0}
 --- !u!114 &7068820251705503812
 MonoBehaviour:
@@ -122,21 +122,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agnes: {fileID: 6489549412686525725}
   eletrik: {fileID: 3717297783524343271, guid: d417b85210110bd4e951baaa7a308f12, type: 3}
---- !u!114 &5136200380464703722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7692799575789786184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 188acd4d943e58047a7a81538ccf9a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraRef: {fileID: 0}
-  cam: {fileID: 0}
-  enemy_move: {fileID: 0}
 --- !u!212 &160270441912232496
 SpriteRenderer:
   m_ObjectHideFlags: 0

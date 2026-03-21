@@ -3,6 +3,7 @@ using UnityEngine;
 public class WindMagic : MonoBehaviour
 {
     [SerializeField] private ScriptableStats _stats;
+    private WaterMagic WaterDash;
     public Rigidbody2D agnes;
     private Movement plymov = null;
     private FireMagic fireExtinguisher = null;
@@ -13,6 +14,7 @@ public class WindMagic : MonoBehaviour
     {
         plymov = GetComponent<Movement>();
         fireExtinguisher = GetComponent<FireMagic>();
+        WaterDash = GetComponent<WaterMagic>();
     }
 
     // Update is called once per frame
@@ -35,6 +37,12 @@ public class WindMagic : MonoBehaviour
                 fireExtinguisher.enabled = true;
                 plymov.usingWindMagic = false;
                 _stats.MaxSpeed = 14;
+            }
+
+            //reset water dash in air only ONCE per press
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                WaterDash.DashUsed = false;
             }
         }
         else
