@@ -1,70 +1,105 @@
-using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+/* * HOW TO USE:
+ * 1. Create two Empty GameObjects as children of your Enemy (PointA and PointB).
+ * 2. Drag them into the 'Point A' and 'Point B' slots in the Inspector.
+ * 3. Set 'Speed' for movement and 'Wait Time' for the pause duration at each point.
+ */
 
+using UnityEngine;
 
 public class MovimientoEnemigo : MonoBehaviour
 {
     #region Public Variables
     public float speed;
-    public float leftLimit;
-    public float rightLimit;
+    public float waitTime = 1.0f; // Seconds to wait at each point
+    public Transform pointA;
+    public Transform pointB;
     #endregion
 
     #region Private Variables
-    //private Animator anim;
-    private float viewAngle;
-    private int direction = 1;
+    private Transform currentTarget;
     private SpriteRenderer spriteRenderer;
+    private EnemyScript enemyScript;
+    private float waitTimer;
+    private bool isWaiting = false;
     #endregion
-
-    private void Awake()
-    {
-        //anim = GetComponent<Animator>();
-    }
 
     public void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        viewAngle = GetComponent<EnemyScript>().viewAngle;
+        enemyScript = GetComponent<EnemyScript>();
+
+        // Start by moving towards Point B
+        currentTarget = pointB;
+        UpdateFacing();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Move();
+        if (currentTarget == null) return;
+
+        if (isWaiting)
+        {
+            HandleWait();
+        }
+        else
+        {
+            Move();
+        }
     }
 
     void Move()
     {
-        //anim.SetBool("Walk", true);
-        transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        // Move towards the current target
+        transform.position = Vector2.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
 
-        // Si llega al límite derecho, cambia a la izquierda
-        if (transform.position.x >= rightLimit)
+        // Check if we have reached the target
+        if (Vector2.Distance(transform.position, currentTarget.position) < 0.1f)
         {
-            direction = -1;
-            Flip();
-        }
-        // Si llega al límite izquierdo, cambia a la derecha
-        else if (transform.position.x <= leftLimit)
-        {
-            direction = 1;
-            Flip();
+            isWaiting = true;
+            waitTimer = waitTime;
+            // Note: We don't flip yet; we flip AFTER the wait is over.
         }
     }
 
-    public void Flip()
+    void HandleWait()
     {
-        spriteRenderer.flipX = !spriteRenderer.flipX;
-        if (spriteRenderer.flipX)
+        waitTimer -= Time.deltaTime;
+
+        if (waitTimer <= 0)
         {
-            GetComponent<EnemyScript>().fovRotation = 270;
+            isWaiting = false;
+
+            // Switch targets
+            currentTarget = (currentTarget == pointB) ? pointA : pointB;
+
+            // Flip the sprite and view cone now that we are moving again
+            UpdateFacing();
         }
-        else
+    }
+
+    public void UpdateFacing()
+    {
+        // Determine direction based on target position relative to enemy
+        bool goingLeft = currentTarget.position.x < transform.position.x;
+
+        spriteRenderer.flipX = goingLeft;
+
+        if (enemyScript != null)
         {
-            GetComponent<EnemyScript>().fovRotation = 90;
+            // If flipping X, point cone left (270), else point right (90)
+            enemyScript.fovRotation = goingLeft ? 270f : 90f;
         }
-           
+    }
+
+    // Visualizes the patrol path in the Scene view
+    private void OnDrawGizmos()
+    {
+        if (pointA != null && pointB != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(pointA.position, pointB.position);
+            Gizmos.DrawSphere(pointA.position, 0.1f);
+            Gizmos.DrawSphere(pointB.position, 0.1f);
+        }
     }
 }
