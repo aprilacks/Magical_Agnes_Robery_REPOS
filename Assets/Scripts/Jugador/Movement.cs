@@ -19,7 +19,6 @@ public class Movement : MonoBehaviour, IPlayerController
     private Quaternion noRotate = new Quaternion(0, 0, 0, 0);
 
     //state check
-
     public bool isHiding = false;
     public bool usingFireMagic = false;
     public bool usingWindMagic = false;
@@ -34,9 +33,6 @@ public class Movement : MonoBehaviour, IPlayerController
     #endregion
     //Variable used to check how much time has passed.
     private float _time;
-
-
-
 
     private void Awake()
     {
@@ -83,6 +79,14 @@ public class Movement : MonoBehaviour, IPlayerController
 
     private void FixedUpdate()
     {
+        //If the player is hiding, we kill all velocity to prevent them from "falling" out of the hiding spot
+        if (isHiding)
+        {
+            _frameVelocity = Vector2.zero;
+            _rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         //Checks if the player hit something
         CheckCollisions();
         //Makes the player jump
@@ -101,11 +105,8 @@ public class Movement : MonoBehaviour, IPlayerController
     public bool _grounded;
     public bool isGrounded()
     {
-   
         return _grounded;
-
     }
-
 
     [HideInInspector] public bool _falling = false;
     public bool isFalling()
@@ -162,7 +163,6 @@ public class Movement : MonoBehaviour, IPlayerController
     }
 
     #endregion
-
 
     #region Jumping
     //Set of variables for the stuff above
@@ -226,10 +226,14 @@ public class Movement : MonoBehaviour, IPlayerController
 
     private void HandleGravity()
     {
-        //If you are on the ground, the gravity doesnt push you underground
-        if (_grounded && _frameVelocity.y <= 0f)
+        //If you are on the ground, we neutralize downward force to stop the "bouncing" against the tilemap
+        if (_grounded)
         {
-            _frameVelocity.y = _stats.GroundingForce;
+            if (_frameVelocity.y < 0)
+            {
+                //Slowly brings the grounding force to 0 so the physics engine can take over smoothly
+                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, 0, _stats.GroundDeceleration * Time.fixedDeltaTime);
+            }
         }
         //If you are on the air, increase gravity so you fall faster. 
         else
@@ -244,13 +248,6 @@ public class Movement : MonoBehaviour, IPlayerController
     //Turns the framevelocity (which we used to calculate the speed the player will have) as the linearVelocity (the speed the player will ACTUALLY have)
     private void ApplyMovement() => _rb.linearVelocity = _frameVelocity;
 
-//#if UNITY_EDITOR
-//    //error message
-//    private void OnValidate()
-//    {
-//        if (_stats == null) Debug.LogWarning("Please assign a ScriptableStats asset to the Player Controller's Stats slot", this);
-//    }
-//#endif
 }
 
 public struct FrameInput
