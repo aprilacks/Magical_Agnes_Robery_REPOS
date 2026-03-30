@@ -57,24 +57,24 @@ public class LevelManager : MonoBehaviour
 
     private void LoadRoom(int index)
     {
-        // 1. Clean up the old room
+        // Cleans up the old room
         if (currentRoomInstance != null)
         {
             Destroy(currentRoomInstance);
         }
 
-        // 2. Spawn the new room prefab at origin
+        // Spawns the new room prefab at coordinates
         currentRoomInstance = Instantiate(roomPrefabs[index], Vector3.zero, Quaternion.identity);
 
-        // 3. Teleport Player to the SpawnPoint inside the NEW room
+        // Teleports the player to the SpawnPoint inside the NEW room
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            // Reset player physics so they don't carry momentum into the new room
+            // Resets player physics so they don't carry momentum into the new room
             Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
             if (rb != null) rb.linearVelocity = Vector2.zero;
 
-            // Find the spawn point object inside the instantiated room
+            // Finds the spawn point object inside the instantiated room
             Transform spawnPoint = currentRoomInstance.transform.Find("EntranceSpawnPoint");
             if (spawnPoint != null)
             {
