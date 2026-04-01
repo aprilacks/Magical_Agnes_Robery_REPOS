@@ -1,12 +1,3 @@
-/* * =================================================================================================
- * DIALOGUE CONTROLLER: THE ULTIMATE DDLC-STYLE SYSTEM (V5.1 - VISIBILITY FIX)
- * ===================================================================================================
- * * --- THE FIX ---
- * Added logic to explicitly SetActive(false) on the Background Image and Portrait 
- * whenever 'isSignMode' is checked, ensuring signs remain "clean."
- * ===================================================================================================
- */
-
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -35,14 +26,8 @@ public class DialogueController : MonoBehaviour
     public bool playOnEnter = false;
 
     [Header("Input Locking")]
-    public MonoBehaviour playerMovementScript;
-    public string pauseButtonInput = "Cancel";
-
-    [Header("Transition Settings")]
-    public TransitionType transitionType;
-    public string sceneToLoad;
-    public Image fadeOverlay;
-    public float fadeDuration = 1.0f;
+    // We leave this hidden in the inspector now because we will find it via code
+    [HideInInspector] public Movement playerMovementScript;
 
     [Header("UI References")]
     public GameObject dialoguePanel;
@@ -63,23 +48,23 @@ public class DialogueController : MonoBehaviour
     void Start()
     {
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
+        FindAgnes(); // Find her immediately on start
+    }
 
-        if (playerMovementScript == null)
+    // NEW: This method hunts for Agnes in the scene
+    void FindAgnes()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null) playerMovementScript = player.GetComponent<MonoBehaviour>();
+            playerMovementScript = playerObj.GetComponent<Movement>();
         }
-
-        if (fadeOverlay != null)
-            fadeOverlay.color = new Color(fadeOverlay.color.r, fadeOverlay.color.g, fadeOverlay.color.b, 0);
     }
 
     void Update()
     {
         if (isDialogueActive)
         {
-            if (!string.IsNullOrEmpty(pauseButtonInput) && Input.GetButtonDown(pauseButtonInput)) return;
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (isTyping) FinishLineInstantly();
@@ -96,6 +81,9 @@ public class DialogueController : MonoBehaviour
 
     private void StartDialogueSequence()
     {
+        // Re-check for Agnes just in case she was spawned/moved
+        if (playerMovementScript == null) FindAgnes();
+
         StopAllCoroutines();
         index = 0;
         isDialogueActive = true;
@@ -124,16 +112,13 @@ public class DialogueController : MonoBehaviour
         isTyping = true;
         DialogueLine currentLine = dialogueSequence[index];
 
-        // --- SIGN MODE VISIBILITY LOGIC ---
         if (isSignMode)
         {
-            // Hide everything except the text box
             if (portraitImage != null) portraitImage.gameObject.SetActive(false);
             if (backgroundImage != null) backgroundImage.gameObject.SetActive(false);
         }
         else
         {
-            // Show Portraits if they exist
             if (portraitImage != null)
             {
                 bool hasPortrait = currentLine.characterPortrait != null;
@@ -141,20 +126,13 @@ public class DialogueController : MonoBehaviour
                 if (hasPortrait) portraitImage.sprite = currentLine.characterPortrait;
             }
 
-            // Show Background if a swap is requested
-            if (backgroundImage != null)
+            if (backgroundImage != null && currentLine.backgroundOverride != null)
             {
-                if (currentLine.backgroundOverride != null)
-                {
-                    backgroundImage.gameObject.SetActive(true);
-                    backgroundImage.sprite = currentLine.backgroundOverride;
-                }
-                // Note: We don't hide the background here if it's null 
-                // because we want the previous background to stay visible
+                backgroundImage.gameObject.SetActive(true);
+                backgroundImage.sprite = currentLine.backgroundOverride;
             }
         }
 
-        // Name Text handling
         if (nameText != null)
         {
             bool hasName = !string.IsNullOrEmpty(currentLine.characterName);
@@ -196,56 +174,46 @@ public class DialogueController : MonoBehaviour
 
     IEnumerator EndDialogueSequence()
     {
-        bool shouldTransition = dialogueSequence[index].triggersLevelTransition;
-
         isDialogueActive = false;
         dialoguePanel.SetActive(false);
 
-        // Ensure UI is cleaned up for the next interaction
         if (backgroundImage != null) backgroundImage.gameObject.SetActive(false);
         if (portraitImage != null) portraitImage.gameObject.SetActive(false);
 
-        if (!shouldTransition)
-        {
-            TogglePlayerControls(true);
-        }
-        else
-        {
-            if (fadeOverlay != null) yield return StartCoroutine(Fade(1));
-
-            if (transitionType == TransitionType.LoadNextRoomPrefab && LevelManager.Instance != null)
-                LevelManager.Instance.LoadNextRoom();
-            else if (transitionType == TransitionType.LoadSpecificScene)
-                SceneManager.LoadScene(sceneToLoad);
-
-            TogglePlayerControls(true);
-        }
+        TogglePlayerControls(true);
+        yield break;
     }
 
     void TogglePlayerControls(bool state)
     {
+        // If we still don't have Agnes, try to find her one last time
+        if (playerMovementScript == null) FindAgnes();
+
         if (playerMovementScript != null)
         {
+            // LOCKDOWN LOGIC
             playerMovementScript.enabled = state;
-        }
-    }
+            playerMovementScript.isHiding = !state;
 
-    IEnumerator Fade(float targetAlpha)
-    {
-        if (fadeOverlay == null) yield break;
-        float startAlpha = fadeOverlay.color.a;
-        float timer = 0;
-        while (timer < fadeDuration)
+            if (playerMovementScript._rb != null)
+            {
+                if (!state)
+                {
+                    playerMovementScript._rb.linearVelocity = Vector2.zero;
+                    playerMovementScript._rb.angularVelocity = 0f;
+                    playerMovementScript._rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                }
+                else
+                {
+                    playerMovementScript._rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                }
+            }
+        }
+        else
         {
-            timer += Time.deltaTime;
-            float newAlpha = Mathf.Lerp(startAlpha, targetAlpha, timer / fadeDuration);
-            fadeOverlay.color = new Color(fadeOverlay.color.r, fadeOverlay.color.g, fadeOverlay.color.b, newAlpha);
-            yield return null;
+            Debug.LogError("DialogueController: Agnes not found! Check 'Player' Tag.");
         }
     }
-
-    private void OnDisable() { TogglePlayerControls(true); }
-    private void OnDestroy() { TogglePlayerControls(true); }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -265,8 +233,6 @@ public class DialogueController : MonoBehaviour
             {
                 isDialogueActive = false;
                 dialoguePanel.SetActive(false);
-                // Ensure UI elements are hidden when walking away
-                if (backgroundImage != null) backgroundImage.gameObject.SetActive(false);
                 TogglePlayerControls(true);
             }
         }
