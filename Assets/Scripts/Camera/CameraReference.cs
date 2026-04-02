@@ -8,9 +8,6 @@ public class CameraReference : MonoBehaviour
     [Header("Camera")]
     public GameObject cam;
 
-    [Header("Enemy Script")]
-    public Enemy_mov_TMP enemy_move;
-
     private void OnTriggerEnter2D(Collider2D collided)
     {
         cam = collided.gameObject;
@@ -41,7 +38,6 @@ public class CameraReference : MonoBehaviour
 
                 // SEE LOGIC IN CAMERA_CONTROLLER
             }
-            enemy_move.RESET_ENEMIES();
 
         }
     }
