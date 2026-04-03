@@ -13,7 +13,7 @@ public class DialogueLine
     public string text;
     public Sprite characterPortrait;
     public Sprite backgroundOverride;
-    public bool triggersLevelTransition;
+    public bool triggersLevelTransition; // Now functional
     public float lineSpeed = 0.08f;
 }
 
@@ -25,8 +25,11 @@ public class DialogueController : MonoBehaviour
     public bool isSignMode = false;
     public bool playOnEnter = false;
 
+    [Header("Transition Settings")]
+    public TransitionType transitionType = TransitionType.LoadSpecificScene;
+    public string sceneToLoad; // Name of the scene to load if using LoadSpecificScene
+
     [Header("Input Locking")]
-    // We leave this hidden in the inspector now because we will find it via code
     [HideInInspector] public Movement playerMovementScript;
 
     [Header("UI References")]
@@ -48,10 +51,9 @@ public class DialogueController : MonoBehaviour
     void Start()
     {
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
-        FindAgnes(); // Find her immediately on start
+        FindAgnes();
     }
 
-    // NEW: This method hunts for Agnes in the scene
     void FindAgnes()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -81,7 +83,6 @@ public class DialogueController : MonoBehaviour
 
     private void StartDialogueSequence()
     {
-        // Re-check for Agnes just in case she was spawned/moved
         if (playerMovementScript == null) FindAgnes();
 
         StopAllCoroutines();
@@ -103,7 +104,9 @@ public class DialogueController : MonoBehaviour
         }
         else
         {
-            StartCoroutine(EndDialogueSequence());
+            // Check the last line's transition bool
+            bool shouldTransition = dialogueSequence[index].triggersLevelTransition;
+            StartCoroutine(EndDialogueSequence(shouldTransition));
         }
     }
 
@@ -172,7 +175,7 @@ public class DialogueController : MonoBehaviour
         isTyping = false;
     }
 
-    IEnumerator EndDialogueSequence()
+    IEnumerator EndDialogueSequence(bool shouldTransition)
     {
         isDialogueActive = false;
         dialoguePanel.SetActive(false);
@@ -180,18 +183,45 @@ public class DialogueController : MonoBehaviour
         if (backgroundImage != null) backgroundImage.gameObject.SetActive(false);
         if (portraitImage != null) portraitImage.gameObject.SetActive(false);
 
-        TogglePlayerControls(true);
+        if (shouldTransition)
+        {
+            ExecuteTransition();
+        }
+        else
+        {
+            TogglePlayerControls(true);
+        }
+
         yield break;
+    }
+
+    private void ExecuteTransition()
+    {
+        if (transitionType == TransitionType.LoadSpecificScene)
+        {
+            if (!string.IsNullOrEmpty(sceneToLoad))
+            {
+                SceneManager.LoadScene(sceneToLoad);
+            }
+            else
+            {
+                Debug.LogWarning("DialogueController: SceneToLoad is empty!");
+            }
+        }
+        else if (transitionType == TransitionType.LoadNextRoomPrefab)
+        {
+            // If you have a LevelManager that handles prefab loading:
+            // LevelManager.Instance.LoadNextRoom();
+            Debug.Log("DialogueController: LoadNextRoomPrefab triggered (add your custom manager logic here).");
+        }
     }
 
     void TogglePlayerControls(bool state)
     {
-        // If we still don't have Agnes, try to find her one last time
         if (playerMovementScript == null) FindAgnes();
 
         if (playerMovementScript != null)
         {
-            // LOCKDOWN LOGIC
             playerMovementScript.enabled = state;
             playerMovementScript.isHiding = !state;
 
@@ -208,10 +238,6 @@ public class DialogueController : MonoBehaviour
                     playerMovementScript._rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 }
             }
-        }
-        else
-        {
-            Debug.LogError("DialogueController: Agnes not found! Check 'Player' Tag.");
         }
     }
 
