@@ -1,12 +1,5 @@
-/* * HOW TO USE:
- * 1. Attach this to your Lever/Switch GameObject.
- * 2. Add a BoxCollider2D set to "Is Trigger" (the interaction zone).
- * 3. Set 'Puzzle ID' to match the ID on the Door (e.g., "Level1_Exit").
- * 4. Set 'Specific Lever ID' to match a unique Light ID (e.g., "L1").
- * 5. Player must be inside the trigger and press 'E' to activate.
- */
-
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PuzzleTrigger : MonoBehaviour
 {
@@ -15,33 +8,44 @@ public class PuzzleTrigger : MonoBehaviour
     public string specificLeverID;
 
     private bool isPulled = false;
+    private PlayerInput _playerInput;
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.E) && !isPulled)
+        if (other.CompareTag("Player") && !isPulled)
         {
-            isPulled = true;
-            SendSignals();
+            // Cache the PlayerInput from the player entering the trigger
+            if (_playerInput == null) _playerInput = other.GetComponent<PlayerInput>();
+
+            // Use the "Interact" action mapped to A (Pro Controller) or E/H (Keyboard)
+            if (_playerInput != null && _playerInput.actions["Interact"].WasPressedThisFrame())
+            {
+                isPulled = true;
+                SendSignals();
+            }
         }
     }
 
     void SendSignals()
     {
         // Find all Doors and tell them this puzzle ID was activated
-        PuzzleReceiver[] receivers = FindObjectsByType<PuzzleReceiver>(FindObjectsSortMode.None);
+        PuzzleReceiver[] receivers = Object.FindObjectsByType<PuzzleReceiver>(FindObjectsSortMode.None);
         foreach (var receiver in receivers)
         {
             receiver.RegisterLeverActivation(puzzleID);
         }
 
         // Find all Lights and tell them this specific light ID is now ON
-        PuzzleLightCue[] lights = FindObjectsByType<PuzzleLightCue>(FindObjectsSortMode.None);
+        PuzzleLightCue[] lights = Object.FindObjectsByType<PuzzleLightCue>(FindObjectsSortMode.None);
         foreach (var light in lights)
         {
             light.ActivateLight(specificLeverID);
         }
 
-        // Visual feedback for the lever handle itself
-        GetComponent<SpriteRenderer>().color = Color.gray;
+        // Visual feedback
+        if (TryGetComponent<SpriteRenderer>(out var renderer))
+        {
+            renderer.color = Color.gray;
+        }
     }
 }

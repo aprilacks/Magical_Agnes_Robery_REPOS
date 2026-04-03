@@ -1,10 +1,5 @@
-/* * HOW TO USE:
- * 1. Attach to your Door.
- * 2. Set 'puzzleID' and 'leversNeeded'.
- * 3. When unlocked and used, it tells the LevelManager to swap the entire room prefab.
- */
-
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PuzzleReceiver : MonoBehaviour
 {
@@ -13,6 +8,8 @@ public class PuzzleReceiver : MonoBehaviour
     public int leversNeeded = 1;
     private int currentLeversActivated = 0;
     public bool isLocked = true;
+
+    private PlayerInput _playerInput;
 
     public void RegisterLeverActivation(string incomingID)
     {
@@ -29,16 +26,21 @@ public class PuzzleReceiver : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        // Interaction: Player presses E on an unlocked door
-        if (other.CompareTag("Player") && !isLocked && Input.GetKeyDown(KeyCode.E))
+        if (other.CompareTag("Player") && !isLocked)
         {
-            TransitionToNextRoom();
+            // Try to get PlayerInput if we don't have it yet
+            if (_playerInput == null) _playerInput = other.GetComponent<PlayerInput>();
+
+            // Interaction: Check the "Interact" action instead of KeyCode.E
+            if (_playerInput != null && _playerInput.actions["Interact"].WasPressedThisFrame())
+            {
+                TransitionToNextRoom();
+            }
         }
     }
 
     void TransitionToNextRoom()
     {
-        // Tell the LevelManager to destroy this room and load the next one
         if (LevelManager.Instance != null)
         {
             LevelManager.Instance.LoadNextRoom();
