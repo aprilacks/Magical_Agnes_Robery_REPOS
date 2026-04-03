@@ -1,3 +1,9 @@
+/* * HOW TO USE:
+ * 1. Set Transition Type to 'LoadNextRoomPrefab' to swap prefabs in the same scene.
+ * 2. Set Transition Type to 'LoadSpecificScene' to jump to a new Unity Scene.
+ * 3. Ensure 'Triggers Level Transition' is checked on the dialogue line that should trigger the change.
+ */
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -20,6 +26,7 @@ public class DialogueLine
 
 public class DialogueController : MonoBehaviour
 {
+    // Added LoadNextRoomPrefab to the enum
     public enum TransitionType { LoadNextRoomPrefab, LoadSpecificScene }
 
     [Header("Mode & Trigger Settings")]
@@ -68,7 +75,6 @@ public class DialogueController : MonoBehaviour
     {
         if (playerMovementScript == null) return;
 
-        // Get the Interact action from the PlayerInput component on the player
         var interactAction = playerMovementScript.GetComponent<PlayerInput>().actions["Interact"];
 
         if (isDialogueActive)
@@ -202,7 +208,16 @@ public class DialogueController : MonoBehaviour
 
     private void ExecuteTransition()
     {
-        if (transitionType == TransitionType.LoadSpecificScene)
+        if (transitionType == TransitionType.LoadNextRoomPrefab)
+        {
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.LoadNextRoom();
+                // We re-enable controls here because we didn't change scenes
+                TogglePlayerControls(true);
+            }
+        }
+        else if (transitionType == TransitionType.LoadSpecificScene)
         {
             if (!string.IsNullOrEmpty(sceneToLoad))
             {

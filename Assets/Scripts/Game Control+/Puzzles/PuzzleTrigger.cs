@@ -8,44 +8,65 @@ public class PuzzleTrigger : MonoBehaviour
     public string specificLeverID;
 
     private bool isPulled = false;
+    private bool playerInZone = false;
     private PlayerInput _playerInput;
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void Update()
     {
-        if (other.CompareTag("Player") && !isPulled)
+        // We check input in Update for maximum responsiveness
+        if (playerInZone && !isPulled && _playerInput != null)
         {
-            // Cache the PlayerInput from the player entering the trigger
-            if (_playerInput == null) _playerInput = other.GetComponent<PlayerInput>();
-
-            // Use the "Interact" action mapped to A (Pro Controller) or E/H (Keyboard)
-            if (_playerInput != null && _playerInput.actions["Interact"].WasPressedThisFrame())
+            if (_playerInput.actions["Interact"].WasPressedThisFrame())
             {
-                isPulled = true;
-                SendSignals();
+                ExecuteTrigger();
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInZone = true;
+            // Cache the reference once when they enter
+            if (_playerInput == null) _playerInput = other.GetComponent<PlayerInput>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInZone = false;
+        }
+    }
+
+    private void ExecuteTrigger()
+    {
+        isPulled = true;
+        SendSignals();
+
+        // Visual feedback
+        if (TryGetComponent<SpriteRenderer>(out var sr))
+        {
+            sr.color = Color.gray;
         }
     }
 
     void SendSignals()
     {
-        // Find all Doors and tell them this puzzle ID was activated
+        // Find and notify receivers
         PuzzleReceiver[] receivers = Object.FindObjectsByType<PuzzleReceiver>(FindObjectsSortMode.None);
         foreach (var receiver in receivers)
         {
             receiver.RegisterLeverActivation(puzzleID);
         }
 
-        // Find all Lights and tell them this specific light ID is now ON
+        // Find and notify lights
         PuzzleLightCue[] lights = Object.FindObjectsByType<PuzzleLightCue>(FindObjectsSortMode.None);
         foreach (var light in lights)
         {
             light.ActivateLight(specificLeverID);
-        }
-
-        // Visual feedback
-        if (TryGetComponent<SpriteRenderer>(out var renderer))
-        {
-            renderer.color = Color.gray;
         }
     }
 }
