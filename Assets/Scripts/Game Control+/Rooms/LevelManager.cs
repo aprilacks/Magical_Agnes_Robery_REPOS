@@ -1,3 +1,11 @@
+/* * HOW TO USE:
+ * 1. Create an empty GameObject named "LevelManager" in your Scene.
+ * 2. Attach this script.
+ * 3. Drag your Room Prefabs into the 'Room Prefabs' array in the inspector.
+ * 4. Ensure each Room Prefab has a child object named "EntranceSpawnPoint".
+ * 5. This manager will reset every time a new Scene is loaded.
+ */
+
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -5,6 +13,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
 
     [Header("Room List")]
+    [Tooltip("The order of room prefabs for THIS specific scene.")]
     public GameObject[] roomPrefabs;
 
     private GameObject currentRoomInstance;
@@ -12,16 +21,8 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton pattern to ensure only one LevelManager exists
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        // Simple instance reference for the current scene
+        Instance = this;
     }
 
     private void Start()
@@ -32,7 +33,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No room prefabs assigned to LevelManager!");
+            Debug.LogError("No room prefabs assigned to LevelManager in this scene!");
         }
     }
 
@@ -45,48 +46,42 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("End of Game reached!");
+            Debug.Log("End of stages in this scene reached!");
         }
     }
 
     public void ResetCurrentRoom()
     {
-        Debug.Log("Resetting Room Index: " + currentRoomIndex);
         LoadRoom(currentRoomIndex);
     }
 
     private void LoadRoom(int index)
     {
-        // Cleans up the old room
+        // 1. Cleanup old room
         if (currentRoomInstance != null)
         {
             Destroy(currentRoomInstance);
         }
 
-        // Spawns the new room prefab at coordinates
+        // 2. Spawn new room
         currentRoomInstance = Instantiate(roomPrefabs[index], Vector3.zero, Quaternion.identity);
 
-        // Teleports the player to the SpawnPoint inside the NEW room
+        // 3. Teleport Player
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            // Resets player physics so they don't carry momentum into the new room
+            // Reset velocity to prevent carrying momentum between stages
             Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
             if (rb != null) rb.linearVelocity = Vector2.zero;
 
-            // Finds the spawn point object inside the instantiated room
             Transform spawnPoint = currentRoomInstance.transform.Find("EntranceSpawnPoint");
             if (spawnPoint != null)
             {
                 player.transform.position = spawnPoint.position;
             }
-            else
-            {
-                Debug.LogWarning("EntranceSpawnPoint not found in " + roomPrefabs[index].name);
-            }
         }
 
-        // 4. Update the Camera
+        // 4. Update Camera through RoomController
         RoomController rc = currentRoomInstance.GetComponent<RoomController>();
         if (rc != null)
         {

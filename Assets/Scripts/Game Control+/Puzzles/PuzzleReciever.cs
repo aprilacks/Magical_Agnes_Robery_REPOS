@@ -9,6 +9,7 @@ public class PuzzleReceiver : MonoBehaviour
     private int currentLeversActivated = 0;
     public bool isLocked = true;
 
+    private bool playerInZone = false;
     private PlayerInput _playerInput;
 
     public void RegisterLeverActivation(string incomingID)
@@ -24,18 +25,33 @@ public class PuzzleReceiver : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void Update()
     {
-        if (other.CompareTag("Player") && !isLocked)
+        // Check for the "Interact" press every frame if the player is standing at the door
+        if (playerInZone && !isLocked && _playerInput != null)
         {
-            // Try to get PlayerInput if we don't have it yet
-            if (_playerInput == null) _playerInput = other.GetComponent<PlayerInput>();
-
-            // Interaction: Check the "Interact" action instead of KeyCode.E
-            if (_playerInput != null && _playerInput.actions["Interact"].WasPressedThisFrame())
+            if (_playerInput.actions["Interact"].WasPressedThisFrame())
             {
                 TransitionToNextRoom();
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInZone = true;
+            // Cache reference once
+            if (_playerInput == null) _playerInput = other.GetComponent<PlayerInput>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInZone = false;
         }
     }
 

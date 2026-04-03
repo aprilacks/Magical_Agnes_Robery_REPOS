@@ -1,7 +1,7 @@
 /* * HOW TO USE:
  * 1. Attached to the root of your Room Prefab.
- * 2. Ensure the child Virtual Camera is assigned in the Inspector.
- * 3. The LevelManager calls ActivateRoom() when this prefab is spawned.
+ * 2. Ensure a Cinemachine Camera is a child of the prefab and assigned to 'vCam'.
+ * 3. Ensure the prefab has a PolygonCollider2D set to 'Is Trigger' for the room bounds.
  */
 
 using UnityEngine;
@@ -16,7 +16,6 @@ public class RoomController : MonoBehaviour
 
     private void Start()
     {
-        // When a room is instantiated, make sure the camera follows the player
         if (vCam != null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -27,7 +26,6 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    // Called by LevelManager immediately after Instantiate
     public void ActivateRoom()
     {
         if (vCam != null)
@@ -36,7 +34,6 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    // Safety check: if the player somehow exits the room trigger
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
