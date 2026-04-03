@@ -1,56 +1,51 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WindMagic : MonoBehaviour
 {
     [SerializeField] private ScriptableStats _stats;
+    private PlayerInput _input;
     private WaterMagic WaterDash;
-    public Rigidbody2D agnes;
-    private Movement plymov = null;
-    private FireMagic fireExtinguisher = null;
+    private Movement plymov;
+    private FireMagic fireExtinguisher;
     public float fallspeed;
     public float slowmo;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         plymov = GetComponent<Movement>();
         fireExtinguisher = GetComponent<FireMagic>();
         WaterDash = GetComponent<WaterMagic>();
+        _input = GetComponent<PlayerInput>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (plymov == null) return;
         if (!plymov._grounded)
         {
-            if (Input.GetKey(KeyCode.Z))
+            if (_input.actions["Wind"].IsPressed())
             {
                 _stats.MaxFallSpeed = fallspeed;
                 fireExtinguisher.enabled = false;
                 plymov.usingFireMagic = false;
                 plymov.usingWindMagic = true;
                 _stats.MaxSpeed = slowmo;
+
+                if (_input.actions["Wind"].WasPressedThisFrame()) WaterDash.DashUsed = false;
             }
             else
             {
-                _stats.MaxFallSpeed = 40;
-                fireExtinguisher.enabled = true;
-                plymov.usingWindMagic = false;
-                _stats.MaxSpeed = 14;
+                ResetStats();
             }
+        }
+        else { ResetStats(); }
+    }
 
-            //reset water dash in air only ONCE per press
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                WaterDash.DashUsed = false;
-            }
-        }
-        else
-        {
-            _stats.MaxFallSpeed = 40;
-            fireExtinguisher.enabled = true;
-            plymov.usingWindMagic = false;
-            _stats.MaxSpeed = 14;
-        }
+    void ResetStats()
+    {
+        _stats.MaxFallSpeed = 40;
+        fireExtinguisher.enabled = true;
+        plymov.usingWindMagic = false;
+        _stats.MaxSpeed = 14;
     }
 }

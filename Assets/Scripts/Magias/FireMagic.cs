@@ -1,41 +1,30 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FireMagic : MonoBehaviour
 {
-
     [SerializeField] private ScriptableStats _stats;
-    private Movement plymov = null;
-    public Rigidbody2D agnes;
-    public Transform MotherAgnes;
+    private Movement plymov;
+    private PlayerInput _input;
     public float CannonSpeed;
     public float CannonAcceleration;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         plymov = GetComponent<Movement>();
+        _input = GetComponent<PlayerInput>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        CannonBall();
-    }
-
-    void CannonBall()
-    {
-        if (plymov.isGrounded() == false)
+        if (!plymov.isGrounded() && _input.actions["Fire"].IsPressed())
         {
-        	if (Input.GetKey(KeyCode.X))
-        	{
-           
-                _stats.MaxFallSpeed = CannonSpeed;
-                _stats.FallAcceleration = CannonAcceleration;
-                plymov.usingFireMagic = true;
-                plymov.usingWindMagic = false;
-            }
+            _stats.MaxFallSpeed = CannonSpeed;
+            _stats.FallAcceleration = CannonAcceleration;
+            plymov.usingFireMagic = true;
+            plymov.usingWindMagic = false;
         }
-        else if (!Input.GetKey(KeyCode.X) || plymov.isGrounded())
+        else if (!_input.actions["Fire"].IsPressed() || plymov.isGrounded())
         {
             _stats.MaxFallSpeed = 40;
             _stats.FallAcceleration = 80;
@@ -45,10 +34,9 @@ public class FireMagic : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Destroyable") && plymov.usingFireMagic == true)
+        if (collision.gameObject.CompareTag("Destroyable") && plymov.usingFireMagic)
         {
             Destroy(collision.gameObject);
         }
     }
-
 }

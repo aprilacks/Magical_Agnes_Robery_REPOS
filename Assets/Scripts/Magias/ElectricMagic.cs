@@ -1,57 +1,41 @@
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ElectricMagic : MonoBehaviour
 {
+    private PlayerInput _input;
     public Rigidbody2D agnes;
     private bool markerPlaced = false;
     private Vector3 markerPosition;
-    private Movement plymov = null;
+    private Movement plymov;
     public GameObject eletrik;
     private GameObject clone;
 
-    private void Start()
+    void Start()
     {
         plymov = GetComponent<Movement>();
+        _input = GetComponent<PlayerInput>();
     }
 
-    private void Update()
+    void Update()
     {
-        if (plymov == null) return;
-        HandleMarkerInput();
-    }
-
-
-    private void HandleMarkerInput()
-    {
-        if (Input.GetKeyDown(KeyCode.C) && !markerPlaced)
+        if (_input.actions["Electric"].WasPressedThisFrame())
         {
-            markerPosition = agnes.transform.position;
-            markerPlaced = true;
-            clone = Instantiate(eletrik, transform.position, transform.rotation);
-            Debug.Log("Marcador colocado en: " + markerPosition);
-            
-        }
-        else if (Input.GetKeyDown(KeyCode.C) && markerPlaced)
-        {
-            TeleportToMarker();
-            Destroy(clone);
-            plymov.isHiding = false;
-            agnes.constraints = RigidbodyConstraints2D.FreezeRotation;
-
+            if (!markerPlaced)
+            {
+                markerPosition = agnes.transform.position;
+                markerPlaced = true;
+                clone = Instantiate(eletrik, transform.position, transform.rotation);
+            }
+            else
+            {
+                agnes.transform.position = markerPosition;
+                Destroy(clone);
+                plymov.isHiding = false;
+                agnes.constraints = RigidbodyConstraints2D.FreezeRotation;
+                plymov.SetFrameVelocity(Vector2.zero);
+                markerPlaced = false;
+            }
         }
     }
-
-    private void TeleportToMarker()
-    {
-        agnes.transform.position = markerPosition;
-
-        plymov.SetFrameVelocity(Vector2.zero);
-
-        markerPlaced = false;
-
-        Debug.Log("Teletransportado al marcador");
-    }
-
 }

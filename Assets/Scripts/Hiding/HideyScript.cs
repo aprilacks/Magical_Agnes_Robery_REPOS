@@ -1,17 +1,18 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HideyScript : MonoBehaviour
 {
     [SerializeField] private Movement _move;
-    public Rigidbody2D agnes; // Player RB
-    public Rigidbody2D hidespot; // Hiding Spot RB
+    [SerializeField] private PlayerInput _input; // Drag Player object here
+    public Rigidbody2D agnes;
+    public Rigidbody2D hidespot;
 
     private bool playerInRange = false;
     private CapsuleCollider2D disableCollision;
 
     private void Start()
     {
-        // Auto-find player in the new room instance
         if (agnes == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -22,18 +23,22 @@ public class HideyScript : MonoBehaviour
         {
             disableCollision = agnes.GetComponent<CapsuleCollider2D>();
             _move = agnes.GetComponent<Movement>();
+            if (_input == null) _input = agnes.GetComponent<PlayerInput>();
         }
     }
 
     private void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.H))
+        if (_input == null || _move == null) return;
+
+        // Use the "Interact" action mapped to A (Pro Controller) or E/H (Keyboard)
+        if (playerInRange && _input.actions["Interact"].WasPressedThisFrame())
         {
             if (!_move.isHiding) Hide();
             else Unhide();
         }
 
-        if (_move != null && _move.isHiding && playerInRange)
+        if (_move.isHiding && playerInRange)
         {
             agnes.transform.position = hidespot.transform.position;
             agnes.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
