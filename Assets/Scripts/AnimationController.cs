@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class AnimationController : MonoBehaviour // Changed from Movement to MonoBehaviour
+public class AnimationController : MonoBehaviour
 {
     private Animator _anim;
     private Movement _plymov;
     private Rigidbody2D _rb;
+
+    // Track the current facing direction to avoid unnecessary scale updates
+    private bool _facingRight = true;
 
     void Start()
     {
@@ -17,7 +20,19 @@ public class AnimationController : MonoBehaviour // Changed from Movement to Mon
     {
         if (_plymov == null) return;
 
-        // Sync booleans from the actual Movement script
+        // --- Flipping Logic ---
+        float moveInput = _rb.linearVelocity.x;
+
+        if (moveInput > 0.1f && !_facingRight)
+        {
+            Flip();
+        }
+        else if (moveInput < -0.1f && _facingRight)
+        {
+            Flip();
+        }
+
+        // --- Animation Logic ---
         _anim.SetBool("Ground", _plymov.isGrounded());
         _anim.SetBool("Water", _plymov.usingWaterMagic);
         _anim.SetBool("Wind", _plymov.usingWindMagic);
@@ -25,18 +40,25 @@ public class AnimationController : MonoBehaviour // Changed from Movement to Mon
 
         if (_plymov.isGrounded())
         {
-            // Reset jump state when hitting floor
             _anim.SetBool("Jump", false);
-
-            // Check horizontal velocity for walk animation
             bool isWalking = Mathf.Abs(_rb.linearVelocity.x) > 0.1f;
             _anim.SetBool("Walk", isWalking);
         }
         else
         {
-            // Only trigger Jump animation if moving upwards
             _anim.SetBool("Jump", _rb.linearVelocity.y > 0.1f);
             _anim.SetBool("Walk", false);
         }
+    }
+
+    private void Flip()
+    {
+        // Switch the way the player is labelled as facing
+        _facingRight = !_facingRight;
+
+        // Multiply the player's x local scale by -1
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 }
