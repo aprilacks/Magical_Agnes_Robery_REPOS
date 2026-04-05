@@ -44,6 +44,19 @@ public class EnemyScript : MonoBehaviour
 
     void LateUpdate() { DrawFieldOfView(); }
 
+    // --- NEW FUNCTION: CATCH ON TOUCH ---
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Check if the object touched is on the target layer
+        if (((1 << collision.gameObject.layer) & targetMask) != 0)
+        {
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.ResetCurrentRoom();
+            }
+        }
+    }
+
     void FindVisibleTargets()
     {
         visibleTargets.Clear();

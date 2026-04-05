@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1292633628584198719}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.456, y: 1.651, z: 0}
+  m_LocalPosition: {x: 0.5, y: 1.651, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -161,7 +161,7 @@ Transform:
   m_GameObject: {fileID: 3451960327186299856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.039, y: 1.668, z: 0}
+  m_LocalPosition: {x: 0, y: 2.001, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -264,7 +264,7 @@ Transform:
   m_GameObject: {fileID: 3599828798930985765}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.551, y: 1.661, z: 0}
+  m_LocalPosition: {x: -0.5, y: 1.661, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -350,9 +350,9 @@ GameObject:
   m_Component:
   - component: {fileID: 566768346511370642}
   - component: {fileID: 2672816746932972091}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -414,8 +414,8 @@ Transform:
   m_GameObject: {fileID: 3991074616204755462}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -1.2122, y: 11.06, z: 0}
-  m_LocalScale: {x: 1.5756519, y: 2.4261694, z: 1}
+  m_LocalPosition: {x: -1.281, y: 10.81, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 654697550275509841}
@@ -591,8 +591,8 @@ Transform:
   m_GameObject: {fileID: 4955677276569119722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -1.2046, y: 4.1936, z: 0}
-  m_LocalScale: {x: 1.5508, y: 2.3872, z: 1}
+  m_LocalPosition: {x: -1.281, y: 4.54, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 654697550275509841}
@@ -753,7 +753,7 @@ GameObject:
   - component: {fileID: 5331762136194997948}
   - component: {fileID: 1988304549875067110}
   - component: {fileID: 1463403392309777440}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TileMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4806,8 +4806,8 @@ Transform:
   m_GameObject: {fileID: 6652237598864176589}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.2205, y: 8.2, z: 0}
-  m_LocalScale: {x: 1.5122397, y: 2.4457376, z: 1}
+  m_LocalPosition: {x: 22.287, y: 8.35, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 654697550275509841}
@@ -5020,7 +5020,7 @@ Transform:
   m_GameObject: {fileID: 7869284756535828514}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.68, y: 4.27, z: 0}
+  m_LocalPosition: {x: 10.68, y: 4.16, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
