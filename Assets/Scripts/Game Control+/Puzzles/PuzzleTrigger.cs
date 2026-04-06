@@ -17,6 +17,13 @@ public class PuzzleTrigger : MonoBehaviour
     private bool playerInZone = false;
     private PlayerInput _playerInput;
 
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         // We check input in Update for maximum responsiveness
@@ -51,6 +58,8 @@ public class PuzzleTrigger : MonoBehaviour
     {
         isPulled = true;
         SendSignals();
+        animator.SetBool("IsPulled", true);
+        
 
         // Visual feedback
         if (TryGetComponent<SpriteRenderer>(out var sr))

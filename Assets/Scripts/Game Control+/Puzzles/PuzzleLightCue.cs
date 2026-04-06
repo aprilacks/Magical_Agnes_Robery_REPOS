@@ -10,23 +10,23 @@ public class PuzzleLightCue : MonoBehaviour
 {
     public string lightID;
 
-    [Header("Colors")]
-    public Color colorOff = new Color(0.2f, 0.2f, 0.2f); // Dark Gray
-    public Color colorOn = Color.yellow;
+    [Header("Light")]
+    public Sprite spriteOff;
+    public Sprite spriteOn;
 
     private SpriteRenderer sr;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        sr.color = colorOff;
+        sr.sprite = spriteOff;
     }
 
     public void ActivateLight(string incomingID)
     {
         if (incomingID == lightID)
         {
-            sr.color = colorOn;
+            sr.sprite = spriteOn;
         }
     }
 }

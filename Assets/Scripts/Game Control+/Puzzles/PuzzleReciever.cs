@@ -19,6 +19,13 @@ public class PuzzleReceiver : MonoBehaviour
     private bool playerInZone = false;
     private PlayerInput _playerInput;
 
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public void RegisterLeverActivation(string incomingID)
     {
         if (incomingID == puzzleID)
@@ -28,6 +35,7 @@ public class PuzzleReceiver : MonoBehaviour
             {
                 isLocked = false;
                 Debug.Log("Door fully unlocked!");
+                animator.SetBool("abir", true);
             }
         }
     }
