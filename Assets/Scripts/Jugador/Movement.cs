@@ -2,6 +2,13 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* * HOW TO USE:
+ * 1. Attach to your Player GameObject.
+ * 2. Assign a 'ScriptableStats' asset to the '_stats' slot.
+ * 3. Ensure the GameObject has a Rigidbody2D, CapsuleCollider2D, and PlayerInput.
+ * 4. Setup Input Actions for "Move" (Vector2) and "Jump" (Button).
+ */
+
 [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D), typeof(PlayerInput))]
 public class Movement : MonoBehaviour, IPlayerController
 {

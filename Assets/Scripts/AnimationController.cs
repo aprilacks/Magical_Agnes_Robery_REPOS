@@ -1,5 +1,9 @@
 using UnityEngine;
-
+/* * HOW TO USE:
+ * 1. Attach to the Player GameObject (or the visual child with the Animator).
+ * 2. Requires an Animator with Bool parameters: "Ground", "Water", "Wind", "Fire", "Jump", and "Walk".
+ * 3. Automatically handles sprite flipping (scaling x by -1) based on Rigidbody velocity.
+ */
 public class AnimationController : MonoBehaviour
 {
     private Animator _anim;

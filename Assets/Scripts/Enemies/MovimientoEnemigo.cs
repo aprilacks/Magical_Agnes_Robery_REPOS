@@ -1,5 +1,11 @@
 using UnityEngine;
-
+/* * HOW TO USE:
+ * 1. Attach to an Enemy GameObject.
+ * 2. TOGGLE 'Is Camera Mode':
+ * - OFF: Assign Point A and Point B (Transforms) for the enemy to patrol between.
+ * - ON: Set Start/End angles for a stationary rotating security camera effect.
+ * 3. Works in tandem with 'EnemyScript' to update the FOV direction based on movement.
+ */
 public class MovimientoEnemigo : MonoBehaviour
 {
     #region Public Variables
@@ -15,9 +21,9 @@ public class MovimientoEnemigo : MonoBehaviour
     [Header("Camera Mode Settings")]
     public float startAngle = 45f;
     public float endAngle = 135f;
-    public float rotationSpeed = 0.5f;   // Speed of the transition (0 to 1)
-    public float pauseTime = 1.5f;      // How long to stop before turning back
-    public bool clockwise = true;       // Toggle to flip rotation logic if needed
+    public float rotationSpeed = 0.5f;  
+    public float pauseTime = 1.5f;     
+    public bool clockwise = true;       
     #endregion
 
     #region Private Variables

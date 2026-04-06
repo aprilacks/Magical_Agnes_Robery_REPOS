@@ -1,9 +1,3 @@
-/* * HOW TO USE:
- * 1. Set Transition Type to 'LoadNextRoomPrefab' to swap prefabs in the same scene.
- * 2. Set Transition Type to 'LoadSpecificScene' to jump to a new Unity Scene.
- * 3. Ensure 'Triggers Level Transition' is checked on the dialogue line that should trigger the change.
- */
-
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -11,6 +5,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+
+/* * HOW TO USE:
+ * 1. Attach to a Trigger NPC or Sign.
+ * 2. Set 'Transition Type' to 'LoadNextRoomPrefab' to swap prefabs or 'LoadSpecificScene'.
+ * 3. Fill the 'Dialogue Sequence' list with text, names, and portraits.
+ * 4. Check 'Triggers Level Transition' on the specific dialogue line that should end the level.
+ * 5. Requires a Player tagged as "Player" with a 'Movement' script attached.
+ */
+
 
 [System.Serializable]
 public class DialogueLine

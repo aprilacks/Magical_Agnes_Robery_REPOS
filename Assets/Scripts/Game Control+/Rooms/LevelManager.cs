@@ -1,9 +1,8 @@
 /* * HOW TO USE:
- * 1. Create an empty GameObject named "LevelManager" in your Scene.
- * 2. Attach this script.
- * 3. Drag your Room Prefabs into the 'Room Prefabs' array in the inspector.
- * 4. Ensure each Room Prefab has a child object named "EntranceSpawnPoint".
- * 5. This manager will reset every time a new Scene is loaded.
+ * 1. Create one 'LevelManager' GameObject in your scene.
+ * 2. Drag your Room Prefabs into the 'Room Prefabs' array in order.
+ * 3. IMPORTANT: Every Room Prefab must have a child named "EntranceSpawnPoint".
+ * 4. Handles room transitions and player teleportation automatically.
  */
 
 using UnityEngine;

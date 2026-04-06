@@ -1,6 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* * HOW TO USE:
+ * 1. Attach to a Door or Level Exit.
+ * 2. Set 'Puzzle ID' to match the levers required to open it.
+ * 3. Set 'Levers Needed' (e.g., 3 levers to unlock).
+ * 4. The door remains 'Locked' until all signals are received; then the player can press 'Interact' to exit.
+ */
+
 public class PuzzleReceiver : MonoBehaviour
 {
     [Header("Puzzle Logic")]

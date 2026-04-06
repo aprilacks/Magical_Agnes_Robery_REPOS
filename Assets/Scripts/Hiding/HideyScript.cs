@@ -1,6 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* * HOW TO USE:
+ * 1. Attach to a "Hiding Spot" prefab (e.g., a closet or bush).
+ * 2. Assign the 'Hidespot' Rigidbody2D (center of the object).
+ * 3. When the player interacts, they are snapped to this position and 'isHiding' is set to true.
+ * 4. While hiding, enemies using 'EnemyScript' will not detect the player.
+ */
+
 public class HideyScript : MonoBehaviour
 {
     [SerializeField] private Movement _move;

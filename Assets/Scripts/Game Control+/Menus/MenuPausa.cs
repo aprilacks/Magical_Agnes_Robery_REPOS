@@ -1,5 +1,11 @@
 using UnityEngine;
 
+/* * HOW TO USE:
+ * 1. Attach to a 'UI Manager' or 'Canvas' object.
+ * 2. Assign your Pause Panel and Controls Panel GameObjects to the slots.
+ * 3. Press 'Escape' in-game to toggle the menu.
+ * 4. Ensure UI Buttons are linked to the 'Reanudar', 'OpenControls', and 'Salir' methods.
+ */
 public class MenuPausa : MonoBehaviour
 {
     public GameObject panelPausa;

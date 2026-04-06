@@ -1,6 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* * HOW TO USE:
+ * 1. Attach to the Player GameObject alongside 'Movement'.
+ * 2. Setup a "Wind" action in PlayerInput.
+ * 3. While in air, hold the button to glide. This reduces 'Max Fall Speed' and 'Movement Speed'.
+ * 4. Automatically disables 'FireMagic' while gliding to prevent conflicts.
+ */
 public class WindMagic : MonoBehaviour
 {
     [SerializeField] private ScriptableStats _stats;

@@ -1,6 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* * HOW TO USE:
+ * 1. Attach to the Player GameObject alongside 'Movement'.
+ * 2. Setup an "Electric" action in PlayerInput.
+ * 3. Press 1: Drops a 'Marker' (the 'eletrik' prefab) at your current spot.
+ * 4. Press 2: Instantly teleports you back to that marker and destroys it.
+ */
+
 public class ElectricMagic : MonoBehaviour
 {
     private PlayerInput _input;

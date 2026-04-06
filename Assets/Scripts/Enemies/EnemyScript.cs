@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* * HOW TO USE:
+ * 1. Attach to an Enemy GameObject with a CircleCollider2D (Trigger).
+ * 2. Assign 'Target Mask' to your Player layer and 'Obstacle Mask' to Walls/Environment.
+ * 3. Assign a MeshFilter to 'View Mesh Filter' to visualize the FOV cone in-game.
+ * 4. Adjust 'View Radius' and 'View Angle' to set the detection zone.
+ * 5. Requires 'LevelManager' in the scene to trigger a reset upon detection.
+ */
 public class EnemyScript : MonoBehaviour
 {
     [Header("Detection Settings")]

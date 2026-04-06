@@ -1,6 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* * HOW TO USE:
+ * 1. Attach to the Player GameObject alongside 'Movement'.
+ * 2. Setup a "Fire" action in PlayerInput.
+ * 3. While in air, hold the button to "cannonball" downward at high speed.
+ * 4. If the player hits an object tagged "Destroyable" while this is active, it is destroyed.
+ */
 public class FireMagic : MonoBehaviour
 {
     [SerializeField] private ScriptableStats _stats;

@@ -2,6 +2,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
+/* * HOW TO USE:
+ * 1. Attach to the Player GameObject alongside 'Movement'.
+ * 2. Setup a "Water" action in PlayerInput.
+ * 3. Allows a horizontal dash that resets when the player touches the ground.
+ * 4. Freezes Y-axis movement during the dash for a "straight-line" effect.
+ */
+
 public class WaterMagic : MonoBehaviour
 {
     private PlayerInput _input;
