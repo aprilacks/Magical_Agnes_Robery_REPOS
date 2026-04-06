@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 3303046011039977163}
   - component: {fileID: 4106834392307189154}
   - component: {fileID: 126840014610664543}
+  - component: {fileID: 1922936326121247874}
   m_Layer: 0
   m_Name: Palanca2
   m_TagString: Untagged
@@ -482,6 +483,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1922936326121247874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3991074616204755462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4277dffee27c64e4e88de17aaf55bc55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupUI: {fileID: 4275235236187195875}
 --- !u!1 &5241182174317395903
 GameObject:
   m_ObjectHideFlags: 0
@@ -37433,6 +37447,7 @@ GameObject:
   - component: {fileID: 3777939123762318526}
   - component: {fileID: 7353171520392166884}
   - component: {fileID: 8409350626273370089}
+  - component: {fileID: 701976813221148498}
   m_Layer: 0
   m_Name: Palanca3
   m_TagString: Untagged
@@ -37619,6 +37634,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &701976813221148498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5523208909969253186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4277dffee27c64e4e88de17aaf55bc55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupUI: {fileID: 4275235236187195875}
 --- !u!1 &5754695516834462384
 GameObject:
   m_ObjectHideFlags: 0
@@ -37664,6 +37692,7 @@ GameObject:
   - component: {fileID: 3197665054520615297}
   - component: {fileID: 8701611773485567472}
   - component: {fileID: 8738780531610863575}
+  - component: {fileID: 4487398819296318756}
   m_Layer: 0
   m_Name: Palanca1
   m_TagString: Untagged
@@ -37850,6 +37879,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4487398819296318756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6652237598864176589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4277dffee27c64e4e88de17aaf55bc55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupUI: {fileID: 4275235236187195875}
 --- !u!1 &7019620404360389633
 GameObject:
   m_ObjectHideFlags: 0
@@ -38009,6 +38051,7 @@ GameObject:
   - component: {fileID: 4901935724752044604}
   - component: {fileID: 7699619723423461593}
   - component: {fileID: 1364431656416134954}
+  - component: {fileID: 1084871549516329286}
   m_Layer: 0
   m_Name: Puerta
   m_TagString: Untagged
@@ -38199,6 +38242,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1084871549516329286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7869284756535828514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4277dffee27c64e4e88de17aaf55bc55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupUI: {fileID: 4275235236187195875}
 --- !u!1001 &3023977827950090371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38299,6 +38355,11 @@ PrefabInstance:
 --- !u!224 &1980462679576648515 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3642100932948968384, guid: 27160331c98569047943c7e2e1647f2d, type: 3}
+  m_PrefabInstance: {fileID: 3023977827950090371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4275235236187195875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1343194310064247136, guid: 27160331c98569047943c7e2e1647f2d, type: 3}
   m_PrefabInstance: {fileID: 3023977827950090371}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5471566472016482764
