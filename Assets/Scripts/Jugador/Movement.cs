@@ -2,13 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/* * HOW TO USE:
- * 1. Attach to your Player GameObject.
- * 2. Assign a 'ScriptableStats' asset to the '_stats' slot.
- * 3. Ensure the GameObject has a Rigidbody2D, CapsuleCollider2D, and PlayerInput.
- * 4. Setup Input Actions for "Move" (Vector2) and "Jump" (Button).
- */
-
 [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D), typeof(PlayerInput))]
 public class Movement : MonoBehaviour, IPlayerController
 {
@@ -24,10 +17,16 @@ public class Movement : MonoBehaviour, IPlayerController
     private bool _cachedQueryStartInColliders;
     private Quaternion noRotate = Quaternion.identity;
 
+    // --- State & Lag Buffering ---
     public bool isHiding = false;
     public bool usingFireMagic = false;
     public bool usingWindMagic = false;
     public bool usingWaterMagic = false;
+
+    [Header("Grounding Detection")]
+    public bool _grounded;
+    private float _lastGroundedTime;
+    [SerializeField] private float _groundedGracePeriod = 0.05f; // Prevents flickering during lag
 
     public Vector2 FrameInput => _frameInput.Move;
     public event Action<bool, float> GroundedChanged;
@@ -41,11 +40,14 @@ public class Movement : MonoBehaviour, IPlayerController
         _col = GetComponent<CapsuleCollider2D>();
         _playerInput = GetComponent<PlayerInput>();
 
-        // Link actions by string name
         _moveAction = _playerInput.actions["Move"];
         _jumpAction = _playerInput.actions["Jump"];
 
         _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+
+        // Internal Physics Setup for Stability
+        _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
     private void Update()
@@ -95,9 +97,9 @@ public class Movement : MonoBehaviour, IPlayerController
 
     #region Collisions
     private float _frameLeftGrounded = float.MinValue;
-    public bool _grounded;
+
     public bool isGrounded() => _grounded;
-    public bool isFalling() => !isGrounded() && _rb.linearVelocity.y < 0f;
+    public bool isFalling() => !_grounded && _rb.linearVelocity.y < -0.1f;
 
     public void SetFrameVelocity(Vector2 velocity) => _frameVelocity += velocity;
 
@@ -111,25 +113,56 @@ public class Movement : MonoBehaviour, IPlayerController
     private void CheckCollisions()
     {
         Physics2D.queriesStartInColliders = false;
-        bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
-        bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
+
+        // Shrink the cast slightly horizontally to avoid getting stuck on wall corners
+        Vector2 castSize = new Vector2(_col.size.x * 0.9f, _col.size.y);
+
+        bool groundHit = Physics2D.CapsuleCast(
+            _col.bounds.center,
+            castSize,
+            _col.direction,
+            0,
+            Vector2.down,
+            _stats.GrounderDistance,
+            ~_stats.PlayerLayer
+        );
+
+        bool ceilingHit = Physics2D.CapsuleCast(
+            _col.bounds.center,
+            castSize,
+            _col.direction,
+            0,
+            Vector2.up,
+            _stats.GrounderDistance,
+            ~_stats.PlayerLayer
+        );
 
         if (ceilingHit) _frameVelocity.y = Mathf.Min(0, _frameVelocity.y);
 
-        if (!_grounded && groundHit)
+        // --- Grounded Logic with Lag Buffer ---
+        if (groundHit)
         {
-            _grounded = true;
-            _coyoteUsable = true;
-            _bufferedJumpUsable = true;
-            _endedJumpEarly = false;
-            GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
+            if (!_grounded)
+            {
+                _grounded = true;
+                _coyoteUsable = true;
+                _bufferedJumpUsable = true;
+                _endedJumpEarly = false;
+                GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
+            }
+            _lastGroundedTime = _time;
         }
-        else if (_grounded && !groundHit)
+        else
         {
-            _grounded = false;
-            _frameLeftGrounded = _time;
-            GroundedChanged?.Invoke(false, 0);
+            // Only un-ground if we've been away from the floor longer than the grace period
+            if (_grounded && _time > _lastGroundedTime + _groundedGracePeriod)
+            {
+                _grounded = false;
+                _frameLeftGrounded = _time;
+                GroundedChanged?.Invoke(false, 0);
+            }
         }
+
         Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
     }
     #endregion
@@ -181,7 +214,8 @@ public class Movement : MonoBehaviour, IPlayerController
     {
         if (_grounded)
         {
-            if (_frameVelocity.y < 0) _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, 0, _stats.GroundDeceleration * Time.fixedDeltaTime);
+            // Vertical stability on ground
+            if (_frameVelocity.y < 0) _frameVelocity.y = 0f;
         }
         else
         {
@@ -196,15 +230,15 @@ public class Movement : MonoBehaviour, IPlayerController
 }
 
 public struct FrameInput
-{
-    public bool JumpDown;
-    public bool JumpHeld;
-    public Vector2 Move;
-}
+    {
+        public bool JumpDown;
+        public bool JumpHeld;
+        public Vector2 Move;
+    }
 
-public interface IPlayerController
-{
-    public event Action<bool, float> GroundedChanged;
-    public event Action Jumped;
-    public Vector2 FrameInput { get; }
-}
+    public interface IPlayerController
+    {
+        public event Action<bool, float> GroundedChanged;
+        public event Action Jumped;
+        public Vector2 FrameInput { get; }
+    }

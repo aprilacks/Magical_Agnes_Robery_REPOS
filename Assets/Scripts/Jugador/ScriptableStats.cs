@@ -34,7 +34,7 @@ public class ScriptableStats : ScriptableObject
     public float GroundingForce = -1.5f;
 
     [Tooltip("The detection distance for grounding and roof detection"), Range(0f, 0.5f)]
-    public float GrounderDistance = 0.05f;
+    public float GrounderDistance = 0.1f;
 
     [Header("JUMP")]
     [Tooltip("The immediate velocity applied when jumping")]

@@ -225,6 +225,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa2c2f9b79096a44da9c4ac9abd1c54d, type: 3}
+--- !u!20 &241845710 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3482534488240990755, guid: fa2c2f9b79096a44da9c4ac9abd1c54d, type: 3}
+  m_PrefabInstance: {fileID: 225217087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &945168548 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2647604283110112621, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
@@ -303,6 +308,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Agnes
       objectReference: {fileID: 0}
+    - target: {fileID: 1042371118783791675, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 241845710}
+    - target: {fileID: 1042371118783791675, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: df70fa95-8a34-4494-b137-73ab6b9c7d37
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042371118783791675, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
     - target: {fileID: 2647604283110112621, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.09
@@ -341,6 +358,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2647604283110112621, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9002151512141668640, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

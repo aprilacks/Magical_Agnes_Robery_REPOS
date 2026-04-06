@@ -165,6 +165,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1608544343 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3482534488240990755, guid: fa2c2f9b79096a44da9c4ac9abd1c54d, type: 3}
+  m_PrefabInstance: {fileID: 7149728332408215272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5201239283623289381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2647604283110112621, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
@@ -181,6 +186,18 @@ PrefabInstance:
     - target: {fileID: 919005749354704414, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
       propertyPath: m_Name
       value: Agnes
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042371118783791675, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1608544343}
+    - target: {fileID: 1042371118783791675, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: df70fa95-8a34-4494-b137-73ab6b9c7d37
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042371118783791675, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Keyboard&Mouse
       objectReference: {fileID: 0}
     - target: {fileID: 2647604283110112621, guid: 7edaab90908dde641882d2487fa112fa, type: 3}
       propertyPath: m_LocalPosition.x
