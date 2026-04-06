@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /* * HOW TO USE:
  * 1. Attach to a 'UI Manager' or 'Canvas' object.
@@ -48,9 +49,9 @@ public class MenuPausa : MonoBehaviour
     }
 
     //Modificar en el futuro para que no salga de la build sino que lleve al menu principal
-    public void Salir()
+    public void Salir(string MainMenu)
     {
-        Application.Quit();
+        SceneManager.LoadScene(MainMenu);
     }
 
 }
