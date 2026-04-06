@@ -36,6 +36,7 @@ public class MovimientoEnemigo : MonoBehaviour
     private bool isWaiting = false;
     private float lerpFactor = 0f;
     private bool movingForward = true;
+    private SpriteRenderer sr;
     #endregion
 
     public void Start()
@@ -46,6 +47,7 @@ public class MovimientoEnemigo : MonoBehaviour
             if (pointB != null) currentTarget = pointB;
             UpdateFacing();
         }
+        sr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
