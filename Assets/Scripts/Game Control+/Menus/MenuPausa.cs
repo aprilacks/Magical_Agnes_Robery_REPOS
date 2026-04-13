@@ -11,7 +11,7 @@ public class MenuPausa : MonoBehaviour
 {
     public GameObject panelPausa;
     public GameObject controlsMenu;
-    private bool juegoPausado = false;
+    public bool juegoPausado;
 
     void Update()
     {
@@ -24,15 +24,15 @@ public class MenuPausa : MonoBehaviour
 
     public void Pausar()
     {
-        panelPausa.SetActive(true);
         Time.timeScale = 0f;
         juegoPausado = true;
+        panelPausa.SetActive(true);
     }
 
     public void Reanudar()
     {
-        panelPausa.SetActive(false);
         Time.timeScale = 1f;
+        panelPausa.SetActive(false);
         juegoPausado = false;
     }
 
