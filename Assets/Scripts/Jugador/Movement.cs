@@ -35,6 +35,9 @@ public class Movement : MonoBehaviour, IPlayerController
     private float _lastGroundedTime;
     [SerializeField] private float _groundedGracePeriod = 0.05f;
 
+    public Vector2 castSize;
+
+
     public Vector2 FrameInput => _frameInput.Move;
     public event Action<bool, float> GroundedChanged;
     public event Action Jumped;
@@ -133,7 +136,7 @@ public class Movement : MonoBehaviour, IPlayerController
     private void CheckCollisions()
     {
         Physics2D.queriesStartInColliders = false;
-        Vector2 castSize = new Vector2(_col.size.x * 0.9f, _col.size.y);
+        castSize = new Vector2(_col.size.x * 0.9f, _col.size.y);
         bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, castSize, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
         if (groundHit)
@@ -151,6 +154,12 @@ public class Movement : MonoBehaviour, IPlayerController
             GroundedChanged?.Invoke(false, 0);
         }
         Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
+    }
+    // DRAW GROUND CHECK
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = _grounded ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(_col.bounds.center, _stats.GrounderDistance);
     }
 
     private bool _jumpToConsume;
